@@ -1,18 +1,17 @@
 
-setwd("C:/Users/CH145296/Desktop/R data/")
-source("C:/Documents and Settings/CH145296/My Documents/R Files/helperfunctions.r")
-source("C:/Documents and Settings/CH145296/My Documents/R Files/bmi_z.r")
+setwd("P:/R/Home_PN/Home_PN")
+source("P:/R/Home_PN/Home_PN/ak_helperfunctions.r")
+source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 
-today <- as.integer(mdy.date(3,1,2015))
+today <- as.integer(mdy.date(11,14,2017))
 
 #####
 # Initial data import from REDCap file.
 #####
-
-readdata <- function(fname="ppsq_homepn_alldata.csv")
+fname="hpn_redcap_api_data.csv"
+readdata <- function(fname="hpn_redcap_api_data.csv")
 {
     all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
-
     all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
     all.dat$cvc_mrn <- as.integer(substr(all.dat$cvc_mrn,1,regexpr(",",all.dat$cvc_mrn)-1))
     all.dat$inpt_mrn <- as.integer(substr(all.dat$inpt_mrn,1,regexpr(",",all.dat$inpt_mrn)-1))
@@ -23,6 +22,14 @@ readdata <- function(fname="ppsq_homepn_alldata.csv")
     all.dat$outpt_mrn <- as.integer(substr(all.dat$outpt_mrn,1,regexpr(",",all.dat$outpt_mrn)-1))
     all.dat <<- all.dat
 }
+
+#####trying cut function as the above is giving the error: relacement has 0 & data has xxx which could be because of knows issue of new variable needs to be created first before conditional statement can work 
+# readdata <- function(fname="hpn_redcap_api_data.csv")
+# {
+#     df$valueBin <- cut(df$value, c(-Inf, 250, 500, 1000, 2000, Inf), 
+#                        labels=c('<=250', '250-500', '500-1,000', '1,000-2,000', '>2,000'))
+#     all.dat <<- all.dat
+# }
 
 ####################
 

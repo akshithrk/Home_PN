@@ -1,9 +1,11 @@
 
+#install.packages('geepack')
 library(geepack)
 library(survival)
+#install.packages('date')
 library(date)
 library(splines)
-setwd("C:/Users/CH145296/Desktop/R data/")
+setwd("P:/R/Home_PN/Home_PN")
 
 mklist <- function(n) vector("list",n)
 

@@ -1,12 +1,12 @@
 
-setwd("C:/Users/CH145296/Desktop/R data/")
-source("C:/Documents and Settings/CH145296/My Documents/R Files/helperfunctions.r")
-source("C:/Documents and Settings/CH145296/My Documents/R Files/ppsq_homepn_functions.r")
-source("C:/Documents and Settings/CH145296/My Documents/R Files/bmi_z.r")
+setwd("P:/R/Home_PN/Home_PN")
+source("P:/R/Home_PN/Home_PN/ak_helperfunctions.r")
+source("P:/R/Home_PN/Home_PN/ak_ppsq_homepn_functions.r")
+source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 
 ###
 
-today <- as.integer(mdy.date(12,31,2015))
+today <- as.integer(mdy.date(11,14,2017))
 readdata()
 mrnlist <- unique(all.dat$mrn)
 
@@ -292,3 +292,4 @@ write.csv(templist[order(templist$cvc_mrn,templist$insert_date),],"ppsq-homepn-c
 
 
 #
+
