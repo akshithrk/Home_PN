@@ -24,11 +24,11 @@
 # Your REDCap issued token, I read mine from a text file
 #Redcap.token <- readLines("/.../Redcap.token.txt") # Read API token from folder
 
-Redcap.token <- '68C69E80B359A674732178FA033CAAE2'
+Redcap.token <- ""
 #Redcap.token
 # REDCAp site API-URL, will most likely be the REDCap site where you normally login + api
 
-REDcap.URL  <- 'https://redcap-qi.tch.harvard.edu/redcap_edc/api/'
+REDcap.URL  <- ""
 #REDcap.URL
 ####################################################################
 ##                                                                ##
@@ -38,7 +38,7 @@ require(RCurl)
 library(dplyr)
 
 # below is the api call to get data from hpn redcap
-RAW.API <- postForm('https://redcap-qi.tch.harvard.edu/redcap_edc/api/', token='68C69E80B359A674732178FA033CAAE2', content="record", 
+RAW.API <- postForm('', token='', content="record", 
                     type="flat", format="csv", rawOrLabel="Label", 
                     .opts=curlOptions(ssl.verifypeer=FALSE, #cainfo=REDCap.crt, 
                                       verbose=FALSE))
@@ -63,7 +63,7 @@ summarise(Rawdata)
 ??'rm'
 rm(RAW.API)
 data <- Rawdata
-write.csv(data, "J:/individual work areas/Akshith/Home PN/updated code/hpn_redcap_api_data.csv")
+write.csv(data, "")
 
 ####################################################################
 ##                                                                ##
