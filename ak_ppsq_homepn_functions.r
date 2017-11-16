@@ -225,7 +225,7 @@ calcdash <- function(m1=0,m2=today)
         newhpn <- newhpn + as.numeric(tempcalc$cldaysnew > 0)
         readmitnew <- readmitnew + tempcalc$readmitnew
     }
-    npatients <- length(unique(active.dat$active_mrn[nowactive]))
+    npatients <- length(unique(active.dat$mrn[nowactive]))
     clabsirate <- round(1000*clabsi/clnow,1)
     clabsiratenew <- round(1000*clabsinew/clnownew,1)
     unplanhosp <- sum(hosp.dat$hosp_status[nowhosp]==1,na.rm=T)
