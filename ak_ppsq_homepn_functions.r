@@ -129,9 +129,9 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     nutr.dat <<- nutr.dat[nownutr,]
     
     return(cat("Demographic records:        ",length(demog.dat$mrn),"\n","Active service records:    ",length(active.dat$mrn),"\n",
-                        "Central line records:      ",length(cl.dat$cvc_mrn),"\n","Blood infection records:   ",length(blood.dat$bld_mrn),"\n",
-                        "Hospitalization records:   ",length(hosp.dat$inpt_mrn),"\n","Outpatient records:        ",length(outpt.dat$outpt_mrn),"\n",
-                        "Growth records:            ",length(growth.dat$growth_mrn),"\n","Nutrition records:         ",length(nutr.dat$nutr_mrn),"\n"))
+                        "Central line records:      ",length(cl.dat$mrn),"\n","Blood infection records:   ",length(blood.dat$mrn),"\n",
+                        "Hospitalization records:   ",length(hosp.dat$mrn),"\n","Outpatient records:        ",length(outpt.dat$mrn),"\n",
+                        "Growth records:            ",length(growth.dat$mrn),"\n","Nutrition records:         ",length(nutr.dat$mrn),"\n"))
 }
 
 #####
