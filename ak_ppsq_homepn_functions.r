@@ -137,14 +137,15 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 #####
 # Function to count CL days for given MRN
 #####
-
+# as new redcap has one mrn for all instruments, commenting variables for event specific mrn's out for the previous design
 countcldays <- function(targetmrn,mask1=0,mask2=today)
 {
-    this.dat1 <- active.dat[active.dat$active_mrn==targetmrn,]
-    this.dat2 <- cl.dat[cl.dat$cvc_mrn==targetmrn,]
-    this.dat3 <- hosp.dat[hosp.dat$inpt_mrn==targetmrn,]
-    this.dat4 <- blood.dat[blood.dat$bld_mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
-    firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+    this.dat1 <- active.dat[active.dat$mrn==targetmrn,]
+    # this.dat2 <- cl.dat[cl.dat$cvc_mrn==targetmrn,]
+    # this.dat3 <- hosp.dat[hosp.dat$inpt_mrn==targetmrn,]
+    # this.dat4 <- blood.dat[blood.dat$bld_mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+    # firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+    firstdate <- min(this.dat1$datein,na.rm=T)
     ndays <- today - firstdate + 1
     if (ndays < 1) return(rep(0,5))
     firstdayhome <- NA
@@ -160,10 +161,10 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
 
     if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
     if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) for (j in 1:ndays) if (is.na(firstdayhome)) next else newhpn[j] <- as.numeric(((today-j+1) - firstdayhome) <= 30 & ((today-j+1) - firstdayhome) >= 0)
-    if (length(this.dat2$cvc_mrn)>0) for (i in 1:length(this.dat2$cvc_mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
-    if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
-    if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
-    if (length(this.dat4$bld_mrn)>0) for (i in 1:length(this.dat4$bld_mrn)) bloodinf[(today-this.dat4$datein[i]+1)] <- 1
+    # if (length(this.dat2$cvc_mrn)>0) for (i in 1:length(this.dat2$cvc_mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
+    # if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
+    # if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
+    # if (length(this.dat4$bld_mrn)>0) for (i in 1:length(this.dat4$bld_mrn)) bloodinf[(today-this.dat4$datein[i]+1)] <- 1
 
     if (mask2 < firstdate) mask2 <- firstdate
     if (mask1 > today) mask1 <- today
