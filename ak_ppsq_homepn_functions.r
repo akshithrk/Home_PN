@@ -3,8 +3,16 @@ setwd("P:/R/Home_PN/Home_PN")
 source("P:/R/Home_PN/Home_PN/ak_helperfunctions.r")
 source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 
-today <- as.integer(mdy.date(11,14,2017))
+# date <- Sys.Date()
+# format(as.date(date), '%m/%d/%y')
+# mdy.date(date)
+# 
+# date.mdy(date)
+# as.date(date)
 
+today <- as.integer(mdy.date(11,16,2017))
+
+# mdy.date(11,14,2017)
 #####
 # Initial data import from REDCap file.
 #####
