@@ -250,7 +250,7 @@ calcdash <- function(m1=0,m2=today)
 
 calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
 {
-    activelist <- unique(active.dat$active_mrn)
+    activelist <- unique(active.dat$mrn)
     nsub <- length(activelist)
     dob <- as.integer(split.date(demog.dat$dob,char="-",ymd=T))
     ageyrs <- round((freezedate - dob)/365,1)
@@ -259,25 +259,25 @@ calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
     
     firstdate <- rep(NA,nsub)
     stateres <- rep(NA,nsub)
-    for (i in 1:nsub) if (!(demog.dat$mrn[i] %in% activelist)) firstdate[i] <- NA else firstdate[i] <- min(active.dat$datein[active.dat$active_mrn==demog.dat$mrn[i]],na.rm=T)
-    for (i in 1:nsub) if (!(demog.dat$mrn[i] %in% activelist)) stateres[i] <- NA else stateres[i] <- active.dat$state_res[active.dat$active_mrn==demog.dat$mrn[i] & active.dat$datein==firstdate[i]] =="MA"
+    for (i in 1:nsub) if (!(demog.dat$mrn[i] %in% activelist)) firstdate[i] <- NA else firstdate[i] <- min(active.dat$datein[active.dat$mrn==demog.dat$mrn[i]],na.rm=T)
+    for (i in 1:nsub) if (!(demog.dat$mrn[i] %in% activelist)) stateres[i] <- NA else stateres[i] <- active.dat$state_res[active.dat$mrn==demog.dat$mrn[i] & active.dat$datein==firstdate[i]] =="MA"
 
     hpntime <- round((freezedate - firstdate)/365,1)
     hpntimemed <- univar(hpntime)$median
     hpntimeiqr <- univar(hpntime)$iqr
 
-    nmale <- sum(demog.dat$gender_male[demog.dat$mrn[i] %in% active.dat$active_mrn],na.rm=T)
+    nmale <- sum(demog.dat$gender_male[demog.dat$mrn[i] %in% active.dat$mrn],na.rm=T)
     nstateres <- sum(stateres,na.rm=T)
 
     nsbs <- sum(demog.dat$diag_sbs[demog.dat$mrn[i] %in% activelist],na.rm=T)
     nenterop <- sum(demog.dat$diag_enterop[demog.dat$mrn[i] %in% activelist],na.rm=T)
     nmotil <- sum(demog.dat$diag_motility[demog.dat$mrn[i] %in% activelist],na.rm=T)
     nmisc <- sum(demog.dat$diag_pn[demog.dat$mrn[i] %in% activelist],na.rm=T)
-
-    ncl <- length(cl.dat$cvc_mrn[cl.dat$cvc_mrn[i] %in% activelist])
-    nbrov <- sum(cl.dat$insert_type[cl.dat$cvc_mrn[i] %in% activelist]==1,na.rm=T)
-    npicc <- sum(cl.dat$insert_type[cl.dat$cvc_mrn[i] %in% activelist]==2,na.rm=T)
-    nportcath <- sum(cl.dat$insert_type==3[cl.dat$cvc_mrn[i] %in% activelist],na.rm=T)
+    # replacing the cvc_mrn to mrn below because cl.dat is the active.data with the respective column contains cl related words
+    ncl <- length(cl.dat$mrn[cl.dat$mrn[i] %in% activelist])
+    nbrov <- sum(cl.dat$insert_type[cl.dat$mrn[i] %in% activelist]==1,na.rm=T)
+    npicc <- sum(cl.dat$insert_type[cl.dat$mrn[i] %in% activelist]==2,na.rm=T)
+    nportcath <- sum(cl.dat$insert_type==3[cl.dat$mrn[i] %in% activelist],na.rm=T)
 
     if (tabprint)
     {
