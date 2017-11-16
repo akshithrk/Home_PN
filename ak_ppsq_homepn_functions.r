@@ -59,15 +59,15 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     liverix <- which(names(all.dat)=="liver_disease_complete")
     outptix <- which(names(all.dat)=="outpatient_encounters_complete")
 
-    demog.dat <- all.dat[all.dat$redcap_event_name=="demo_arm_1",1:demogix]
-    active.dat <- all.dat[all.dat$redcap_event_name=="active_arm_2",c(1:3,(demogix+1):activeix)]
-    cl.dat <- all.dat[all.dat$redcap_event_name=="cvc_arm_3",c(1:3,(activeix+1):clix)]
-    hosp.dat <- all.dat[all.dat$redcap_event_name=="inpatient_arm_4",c(1:3,(clix+1):hospix)]
-    blood.dat <- all.dat[all.dat$redcap_event_name=="blood_arm_5",c(1:3,(hospix+1):bloodix)]
-    nutr.dat <- all.dat[all.dat$redcap_event_name=="nutrition_arm_6",c(1:3,(bloodix+1):nutrix)]
-    growth.dat <- all.dat[all.dat$redcap_event_name=="growth_arm_7",c(1:3,(nutrix+1):growthix)]
-    liver.dat <- all.dat[all.dat$redcap_event_name=="liver_arm_8",c(1:3,(growthix+1):liverix)]
-    outpt.dat <- all.dat[all.dat$redcap_event_name=="outpatient_arm_9",c(1:3,(liverix+1):outptix)]
+    demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demo_arm_1",1:demogix]
+    active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_arm_2",c(1:3,(demogix+1):activeix)]
+    cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="cvc_arm_3",c(1:3,(activeix+1):clix)]
+    hosp.dat <- all.dat[all.dat$redcap_repeat_instrument=="inpatient_arm_4",c(1:3,(clix+1):hospix)]
+    blood.dat <- all.dat[all.dat$redcap_repeat_instrument=="blood_arm_5",c(1:3,(hospix+1):bloodix)]
+    nutr.dat <- all.dat[all.dat$redcap_repeat_instrument=="nutrition_arm_6",c(1:3,(bloodix+1):nutrix)]
+    growth.dat <- all.dat[all.dat$redcap_repeat_instrument=="growth_arm_7",c(1:3,(nutrix+1):growthix)]
+    liver.dat <- all.dat[all.dat$redcap_repeat_instrument=="liver_arm_8",c(1:3,(growthix+1):liverix)]
+    outpt.dat <- all.dat[all.dat$redcap_repeat_instrument=="outpatient_arm_9",c(1:3,(liverix+1):outptix)]
 
     active.dat$datein <- as.integer(split.date(active.dat$svc_start,char="-",ymd=T))
     active.dat$dateout <- as.integer(split.date(active.dat$svc_stop,char="-",ymd=T))
@@ -128,7 +128,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     growth.dat <<- growth.dat[nowgrowth,]
     nutr.dat <<- nutr.dat[nownutr,]
     
-    return(cat("Demographic records:        ",length(demog.dat$mrn),"\n","Active service records:    ",length(active.dat$active_mrn),"\n",
+    return(cat("Demographic records:        ",length(demog.dat$mrn),"\n","Active service records:    ",length(active.dat$mrn),"\n",
                         "Central line records:      ",length(cl.dat$cvc_mrn),"\n","Blood infection records:   ",length(blood.dat$bld_mrn),"\n",
                         "Hospitalization records:   ",length(hosp.dat$inpt_mrn),"\n","Outpatient records:        ",length(outpt.dat$outpt_mrn),"\n",
                         "Growth records:            ",length(growth.dat$growth_mrn),"\n","Nutrition records:         ",length(nutr.dat$nutr_mrn),"\n"))
