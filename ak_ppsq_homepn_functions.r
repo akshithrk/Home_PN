@@ -39,13 +39,15 @@ readdata <- function(fname="hpn_redcap_api_data.csv")
 #####
 # Prep data
 #####
-
+# below is appending all the ,mrn;s listed above and so replacing it with just one mrn available i nthe data set
 prepdata <- function(mrnlist,m1=0,m2=today)
 {
-    all.dat <- all.dat[all.dat$mrn %in% mrnlist | all.dat$active_mrn %in% mrnlist | all.dat$cvc_mrn %in% mrnlist
-                            | all.dat$inpt_mrn %in% mrnlist | all.dat$bld_mrn %in% mrnlist | all.dat$nutr_mrn %in% mrnlist
-                            | all.dat$growth_mrn %in% mrnlist | all.dat$liver_mrn %in% mrnlist | all.dat$outpt_mrn %in% mrnlist,]
-    all.dat <- all.dat[-34062,]
+  all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
+  all.dat <- all.dat[-34062,]
+    # all.dat <- all.dat[all.dat$mrn %in% mrnlist | all.dat$active_mrn %in% mrnlist | all.dat$cvc_mrn %in% mrnlist
+    #                         | all.dat$inpt_mrn %in% mrnlist | all.dat$bld_mrn %in% mrnlist | all.dat$nutr_mrn %in% mrnlist
+    #                         | all.dat$growth_mrn %in% mrnlist | all.dat$liver_mrn %in% mrnlist | all.dat$outpt_mrn %in% mrnlist,]
+    # all.dat <- all.dat[-34062,]
     
     demogix <- which(names(all.dat)=="demographics_complete")
     activeix <- which(names(all.dat)=="active_on_service_complete")
