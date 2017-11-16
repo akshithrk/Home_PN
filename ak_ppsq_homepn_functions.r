@@ -9,18 +9,20 @@ today <- as.integer(mdy.date(11,14,2017))
 # Initial data import from REDCap file.
 #####
 #below variables were for old redcap hence replacing them with mrn as new design allows for only one mrn across all instruments
+
 fname="hpn_redcap_api_data.csv"
 readdata <- function(fname="hpn_redcap_api_data.csv")
 {
     all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
-    all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
-    all.dat$cvc_mrn <- as.integer(substr(all.dat$cvc_mrn,1,regexpr(",",all.dat$cvc_mrn)-1))
-    all.dat$inpt_mrn <- as.integer(substr(all.dat$inpt_mrn,1,regexpr(",",all.dat$inpt_mrn)-1))
-    all.dat$bld_mrn <- as.integer(substr(all.dat$bld_mrn,1,regexpr(",",all.dat$bld_mrn)-1))
-    all.dat$nutr_mrn <- as.integer(substr(all.dat$nutr_mrn,1,regexpr(",",all.dat$nutr_mrn)-1))
-    all.dat$growth_mrn <- as.integer(substr(all.dat$growth_mrn,1,regexpr(",",all.dat$growth_mrn)-1))
-    all.dat$liver_mrn <- as.integer(substr(all.dat$liver_mrn,1,regexpr(",",all.dat$liver_mrn)-1))
-    all.dat$outpt_mrn <- as.integer(substr(all.dat$outpt_mrn,1,regexpr(",",all.dat$outpt_mrn)-1))
+    all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
+    # all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
+    # all.dat$cvc_mrn <- as.integer(substr(all.dat$cvc_mrn,1,regexpr(",",all.dat$cvc_mrn)-1))
+    # all.dat$inpt_mrn <- as.integer(substr(all.dat$inpt_mrn,1,regexpr(",",all.dat$inpt_mrn)-1))
+    # all.dat$bld_mrn <- as.integer(substr(all.dat$bld_mrn,1,regexpr(",",all.dat$bld_mrn)-1))
+    # all.dat$nutr_mrn <- as.integer(substr(all.dat$nutr_mrn,1,regexpr(",",all.dat$nutr_mrn)-1))
+    # all.dat$growth_mrn <- as.integer(substr(all.dat$growth_mrn,1,regexpr(",",all.dat$growth_mrn)-1))
+    # all.dat$liver_mrn <- as.integer(substr(all.dat$liver_mrn,1,regexpr(",",all.dat$liver_mrn)-1))
+    # all.dat$outpt_mrn <- as.integer(substr(all.dat$outpt_mrn,1,regexpr(",",all.dat$outpt_mrn)-1))
     all.dat <<- all.dat
 }
 
