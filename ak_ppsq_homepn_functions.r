@@ -8,6 +8,7 @@ today <- as.integer(mdy.date(11,14,2017))
 #####
 # Initial data import from REDCap file.
 #####
+#below variables were for old redcap hence replacing them with mrn as new design allows for only one mrn across all instruments
 fname="hpn_redcap_api_data.csv"
 readdata <- function(fname="hpn_redcap_api_data.csv")
 {
