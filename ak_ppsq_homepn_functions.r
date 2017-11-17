@@ -10,7 +10,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # date.mdy(date)
 # as.date(date)
 
-today <- as.integer(mdy.date(11,16,2017))
+today <- as.integer(mdy.date(11,17,2017))
 
 # mdy.date(11,14,2017)
 #####
@@ -18,8 +18,8 @@ today <- as.integer(mdy.date(11,16,2017))
 #####
 #below variables were for old redcap hence replacing them with mrn as new design allows for only one mrn across all instruments
 
-fname="hpn_redcap_api_data.csv"
-readdata <- function(fname="hpn_redcap_api_data.csv")
+fname="hpn_redcap_api_data_new.csv"
+readdata <- function(fname="hpn_redcap_api_data_new.csv")
 {
     all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
     all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
@@ -35,7 +35,7 @@ readdata <- function(fname="hpn_redcap_api_data.csv")
 }
 
 #####trying cut function as the above is giving the error: relacement has 0 & data has xxx which could be because of knows issue of new variable needs to be created first before conditional statement can work 
-# readdata <- function(fname="hpn_redcap_api_data.csv")
+# readdata <- function(fname="hpn_redcap_api_data_new.csv")
 # {
 #     df$valueBin <- cut(df$value, c(-Inf, 250, 500, 1000, 2000, Inf), 
 #                        labels=c('<=250', '250-500', '500-1,000', '1,000-2,000', '>2,000'))

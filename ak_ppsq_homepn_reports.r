@@ -5,8 +5,8 @@ source("P:/R/Home_PN/Home_PN/ak_ppsq_homepn_functions.r")
 source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 
 ###
-
-today <- as.integer(mdy.date(11,16,2017))
+#updated date
+today <- as.integer(mdy.date(11,17,2017))
 readdata()
 mrnlist <- unique(all.dat$mrn)
 
@@ -46,10 +46,10 @@ lowrisk2 <- c(352225,353847,1098632,1232971,2077612,2152049,2154352,2248746,2273
 #####
 
 prepdata(mrnlist)
-#prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2015))
-#prepdata(highrisk2,mdy.date(3,1,2015),mdy.date(12,31,2015))
-#prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2015))
-#prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2015))
+#prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
+#prepdata(highrisk2,mdy.date(3,1,2018),mdy.date(12,31,2018))
+#prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
+#prepdata(lowrisk2,mdy.date(3,1,2018),mdy.date(12,31,2018))
 
 nyears <- 5
 clreport <- matrix(NA,12*nyears,18)
@@ -66,7 +66,8 @@ for (i in 1:nyears) for (j in 1:12)
 clreport <- data.frame(clreport)
 names(clreport) <- c("month","year","cldays","cldaysnew","clabsi","clabsinew","clabsirate","npats","unplanhosp","los.median","percout","newhpn","death","transfer","weanoff","outptenc","remclabsi","medbmi")
 clreport <- clreport[order(clreport$year,clreport$month),]
-clreport <- clreport[-which(clreport$year>2015),]
+#2015 to 2018
+clreport <- clreport[-which(clreport$year>2018),]
 clreport <- data.frame(obs=(1:length(clreport$month)),clreport)
 write.table(clreport,"ppsq-homepn-clreport-monthly.csv",col.names=T,row.names=F,sep=",")
 
@@ -89,8 +90,8 @@ write.table(restab,"ppsq-homepn-clreport-validation.csv",col.names=T,row.names=F
 # Demographic table - alcohol locks
 #####
 
-prepdata(alclocklist,mdy.date(10,1,2014),mdy.date(9,30,2015))
-restab <- calcdemog(mdy.date(3,1,2015),tabprint=T)
+prepdata(alclocklist,mdy.date(10,1,2014),mdy.date(9,30,2018))
+restab <- calcdemog(mdy.date(3,1,2018),tabprint=T)
 
 #####
 # Control charts
@@ -124,7 +125,7 @@ lines(x,lwd=3)
 lines(c(0,25),c(exp(bl1),exp(bl1)),lty=1)
 lines(c(25,length(x)),c(exp(bl2),exp(bl2)),lty=1)
 par(xaxt="s")
-axis(1,at=(0:3)*12 + 4,labels=c("Jan 2012","Jan 2013","Jan 2014","Jan 2015"))
+axis(1,at=(0:3)*12 + 4,labels=c("Jan 2012","Jan 2013","Jan 2014","Jan 2015","Jan 2016","Jan 2017"))
 axis(1,at=(0:12)*4 + 4,labels=NA)
 lines(c(0,25),c(uplim1,uplim1),lty=2)
 lines(c(25,length(x)),c(uplim2,uplim2),lty=2)
@@ -145,7 +146,7 @@ par(xaxt="n")
 plot(x,type="l",lwd=3,main="Unplanned hospitalization rate per 1000 line days",xlab="Calendar year",ylab="Rate",ylim=c(0,1.05*uplim),frame=T)
 abline(h=exp(bl),lty=1)
 par(xaxt="s")
-axis(1,at=(0:4)*12,labels=(2011:2015))
+axis(1,at=(0:4)*12,labels=(2011:2018))
 abline(h=uplim,lty=2)
 points(seq(1,length(x))[outlier],x[outlier],pch=19,cex=1.2,col="red")
 
@@ -161,7 +162,7 @@ par(xaxt="n")
 plot(x,type="l",lwd=3,main="Median BMI percentile",xlab="Calendar year",ylab="BMI percentile",ylim=c(40,90),frame=T)
 abline(h=bl,lty=1)
 par(xaxt="s")
-axis(1,at=(0:4)*12,labels=(2011:2015))
+axis(1,at=(0:4)*12,labels=(2011:2018))
 #abline(h=uplim,lty=2)
 #points(seq(1,length(x))[outlier],x[outlier],pch=19,cex=1.2,col="red")
 
@@ -213,20 +214,21 @@ for (i in 1:4)
     if (i==4) hosp.figs[4] <- (12/7)*hosp.figs[4]
 }
 
-restab <- data.frame(2012:2015,outpt.figs,nsub.figs,newhpn.figs,hosp.figs)
+#updating 2015 to 2018
+restab <- data.frame(2012:2018,outpt.figs,nsub.figs,newhpn.figs,hosp.figs)
 names(restab) <- c("year","outpt.hpn","outpt.sbs","outpt.all","active.service","new.starts","discharges")
 write.csv(restab,"ppsq-homepn-annualfigs.csv")
 
 pdf("ppsq-homepn-annualfigs.pdf",width=10.5,height=8)
 
-plot(2012:2015,outpt.figs[,3],type="l",main="Home PN outpatient visits by location",ylab="Total patient visits",xlab="Year",ylim=c(0,1300),lwd=2)
-lines(2012:2015,outpt.figs[,1],lwd=2,lty=2)
-lines(2012:2015,outpt.figs[,2],lwd=2,lty=3)
+plot(2012:2018,outpt.figs[,3],type="l",main="Home PN outpatient visits by location",ylab="Total patient visits",xlab="Year",ylim=c(0,1300),lwd=2)
+lines(2012:2018,outpt.figs[,1],lwd=2,lty=2)
+lines(2012:2018,outpt.figs[,2],lwd=2,lty=3)
 legend("bottomleft",legend=c("All","HPN","SBS"),lty=c(1,2,3),lwd=c(2,2,2))
 
-plot(2012:2015,nsub.figs,type="l",main="Home PN unique patients on active service",ylab="Total patients",xlab="Year",lwd=2)
-plot(2012:2015,newhpn.figs,type="l",main="New start Home PN unique patients enrolled",ylab="Total patients",xlab="Year",lwd=2)
-plot(2012:2015,hosp.figs,type="l",main="Home PN hospital discharges at BCH",ylab="Total patients",xlab="Year",lwd=2)
+plot(2012:2018,nsub.figs,type="l",main="Home PN unique patients on active service",ylab="Total patients",xlab="Year",lwd=2)
+plot(2012:2018,newhpn.figs,type="l",main="New start Home PN unique patients enrolled",ylab="Total patients",xlab="Year",lwd=2)
+plot(2012:2018,hosp.figs,type="l",main="Home PN hospital discharges at BCH",ylab="Total patients",xlab="Year",lwd=2)
 
 dev.off()
 
