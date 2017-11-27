@@ -9,7 +9,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # 
 # date.mdy(date)
 # as.date(date)
-
+# is not going to work and need to be able to use date function
 today <- as.integer(mdy.date(11,17,2017))
 
 # mdy.date(11,14,2017)
