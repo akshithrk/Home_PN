@@ -6,12 +6,18 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # date <- Sys.Date()
 # format(as.date(date), '%m/%d/%y')
 # mdy.date(date)
-# 
+ 
 # date.mdy(date)
 # as.date(date)
-# is not going to work and need to be able to use date function
-today <- as.integer(mdy.date(11,17,2017))
+# replacing the below to use format(Sys.Date(), "%d%b%Y") but error when converting to integer so leaving as is for now as data output not specific to dates
+# error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
+today <- as.integer(mdy.date(11,27,2017))
+
+
+
+# today <- as.integer(format(Sys.Date(), "%d%b%Y"))
+# today
 # mdy.date(11,14,2017)
 #####
 # Initial data import from REDCap file.
@@ -285,7 +291,7 @@ calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
     ncl <- length(cl.dat$mrn[cl.dat$mrn[i] %in% activelist])
     nbrov <- sum(cl.dat$insert_type[cl.dat$mrn[i] %in% activelist]==1,na.rm=T)
     npicc <- sum(cl.dat$insert_type[cl.dat$mrn[i] %in% activelist]==2,na.rm=T)
-    nportcath <- sum(cl.dat$insert_type==3[cl.dat$mrn[i] %in% activelist],na.rm=T)
+    nportcath <- sum(cl.dat$insert_type==3[cl.dat$mrn[i] %in% activelist], na.rm=T)
 
     if (tabprint)
     {
