@@ -24,10 +24,20 @@ today <- as.integer(mdy.date(11,27,2017))
 #####
 #below variables were for old redcap hence replacing them with mrn as new design allows for only one mrn across all instruments
 
+
+# test <- read.csv(fname)
+# test
+# write.csv(test, paste0("test_hpn_redcap_api_data_new_wo_na.strings",format(Sys.time(), "%Y %b %d %H.%M"),".csv"))
+# test_with_na_strings <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
+# write.csv(test_with_na_strings, paste0("test_hpn_redcap_api_data_new_with_na.strings",format(Sys.time(), "%Y %b %d %H.%M"),".csv"))
+
 fname="hpn_redcap_api_data_new.csv"
 readdata <- function(fname="hpn_redcap_api_data_new.csv")
 {
-    all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
+  read.csv
+    # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
+    all.dat <- read.csv(fname)[,-1]
+    # all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
     all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
     # all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
     # all.dat$cvc_mrn <- as.integer(substr(all.dat$cvc_mrn,1,regexpr(",",all.dat$cvc_mrn)-1))
