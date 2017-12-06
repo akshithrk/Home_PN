@@ -31,7 +31,10 @@ today <- as.integer(mdy.date(11,27,2017))
 # test_with_na_strings <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
 # write.csv(test_with_na_strings, paste0("test_hpn_redcap_api_data_new_with_na.strings",format(Sys.time(), "%Y %b %d %H.%M"),".csv"))
 
-fname="hpn_redcap_api_data_new.csv"
+# replacing fname with individual instrument files instead of the raw.api file
+# fname="hpn_redcap_api_data_new.csv"
+
+
 readdata <- function(fname="hpn_redcap_api_data_new.csv")
 {
   read.csv
