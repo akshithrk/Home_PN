@@ -32,10 +32,14 @@ today <- as.integer(mdy.date(12,08,2017))
 # write.csv(test_with_na_strings, paste0("test_hpn_redcap_api_data_new_with_na.strings",format(Sys.time(), "%Y %b %d %H.%M"),".csv"))
 
 # replacing fname with individual instrument files instead of the raw.api file
-# fname="hpn_redcap_api_data_new.csv"
+fname="hpn_redcap_api_alldata.csv"
 
 # below function reading redcap csv files & reading mrn from it so modifyiung it to read the instrument files and point to record
 readdata <- function(fname="hpn_redcap_api_data_new.csv")
+  regexpr(",",all.dat$mrn)-1
+substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1)
+as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
+
 {
   read.csv
     # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
@@ -52,6 +56,18 @@ readdata <- function(fname="hpn_redcap_api_data_new.csv")
     # all.dat$outpt_mrn <- as.integer(substr(all.dat$outpt_mrn,1,regexpr(",",all.dat$outpt_mrn)-1))
     all.dat <<- all.dat
 }
+
+aos <- active_on_service_rawdata
+bloodstream <- bloodstream_infections_rawdata
+central <- central_line_rawdata
+demog <- demographics_rawdata
+growth <- growth_data_rawdata
+ipenc <- inpatient_encounters_rawdata
+# iterventions <- interventions_rawdata
+liver <- liver_disease_rawdata
+# nutrition <- nut_rawdata
+openc <- outpatient_encounters_rawdata
+
 
 #####trying cut function as the above is giving the error: relacement has 0 & data has xxx which could be because of knows issue of new variable needs to be created first before conditional statement can work 
 # readdata <- function(fname="hpn_redcap_api_data_new.csv")
