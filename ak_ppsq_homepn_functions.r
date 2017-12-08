@@ -1,4 +1,4 @@
-
+getwd()
 setwd("P:/R/Home_PN/Home_PN")
 source("P:/R/Home_PN/Home_PN/ak_helperfunctions.r")
 source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
