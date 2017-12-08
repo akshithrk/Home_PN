@@ -12,7 +12,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # replacing the below to use format(Sys.Date(), "%d%b%Y") but error when converting to integer so leaving as is for now as data output not specific to dates
 # error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
-today <- as.integer(mdy.date(11,27,2017))
+today <- as.integer(mdy.date(12,08,2017))
 
 
 
@@ -34,7 +34,7 @@ today <- as.integer(mdy.date(11,27,2017))
 # replacing fname with individual instrument files instead of the raw.api file
 # fname="hpn_redcap_api_data_new.csv"
 
-
+# below function reading redcap csv files & reading mrn from it so modifyiung it to read the instrument files and point to record
 readdata <- function(fname="hpn_redcap_api_data_new.csv")
 {
   read.csv
@@ -66,16 +66,18 @@ readdata <- function(fname="hpn_redcap_api_data_new.csv")
 #####
 # Prep data
 #####
-# below is appending all the ,mrn;s listed above and so replacing it with just one mrn available i nthe data set
+# below is appending all the ,mrn variables listed above and so replacing it with just one mrn available in the data set
 prepdata <- function(mrnlist,m1=0,m2=today)
 {
   all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
-  all.dat <- all.dat[-34062,]
+  all.dat <- all.dat
     # all.dat <- all.dat[all.dat$mrn %in% mrnlist | all.dat$active_mrn %in% mrnlist | all.dat$cvc_mrn %in% mrnlist
     #                         | all.dat$inpt_mrn %in% mrnlist | all.dat$bld_mrn %in% mrnlist | all.dat$nutr_mrn %in% mrnlist
     #                         | all.dat$growth_mrn %in% mrnlist | all.dat$liver_mrn %in% mrnlist | all.dat$outpt_mrn %in% mrnlist,]
+    # below line tells to skip the first 34062 rows but get all the columns so removig this logic
     # all.dat <- all.dat[-34062,]
     
+  # below is reading the individual files
     demogix <- which(names(all.dat)=="demographics_complete")
     activeix <- which(names(all.dat)=="active_on_service_complete")
     clix <- which(names(all.dat)=="central_line_complete")
