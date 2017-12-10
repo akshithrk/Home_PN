@@ -157,6 +157,9 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     liver.dat$datein <- replace(liver.dat$datein,liver.dat$datein>today,today)
     outpt.dat$datein <- replace(outpt.dat$datein,outpt.dat$datein>today,today)
     
+    # the original data was as factors and so converting into numeric vectors
+    growth.dat$growth_wt_kg <- as.numeric(as.character(growth.dat$growth_wt_kg))
+    growth.dat$growth_ht_cm <- as.numeric(as.character(growth.dat$growth_ht_cm))
     growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
     growth.dat <- merge(growth.dat,demog.dat[,c(2,3,6)],all.x=T,all.y=F,by.x="growth_mrn",by.y="mrn")
     growth.dat$ageyrs <- round((growth.dat$datein-as.integer(split.date(growth.dat$dob.y,char="-",ymd=T))+1)/365,1)
