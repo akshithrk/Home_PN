@@ -56,7 +56,8 @@ readdata <- function(fname="hpn_redcap_api_data_new.csv")
 }
 
 aos <- active_on_service_rawdata
-aos$
+# aos$record same as as.integer yet sticking to as.integer
+as.integer(aos$record)
 bloodstream <- bloodstream_infections_rawdata
 central <- central_line_rawdata
 demog <- demographics_rawdata
@@ -93,7 +94,8 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     # all.dat <- all.dat[-34062,]
     
   # below is reading the individual files
-    demogix <- which(names(all.dat)=="demographics_complete")
+  # ak: removing the _complete as its not reflected in new redcap design
+    demogix <- which(names(all.dat)=="demographics")
     activeix <- which(names(all.dat)=="active_on_service_complete")
     clix <- which(names(all.dat)=="central_line_complete")
     hospix <- which(names(all.dat)=="inpatient_encounters_complete")
@@ -102,7 +104,8 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     growthix <- which(names(all.dat)=="growth_data_complete")
     liverix <- which(names(all.dat)=="liver_disease_complete")
     outptix <- which(names(all.dat)=="outpatient_encounters_complete")
-
+    
+    # ak: rfom the following changing instrument to instance according to new redcap
     demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demo_arm_1",1:demogix]
     active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_arm_2",c(1:3,(demogix+1):activeix)]
     cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="cvc_arm_3",c(1:3,(activeix+1):clix)]
