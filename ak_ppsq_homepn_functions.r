@@ -106,7 +106,8 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     outptix <- which(names(all.dat)=="outpatient_encounters_complete")
     
     # ak: rfom the following changing instrument to instance according to new redcap
-    demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demo_arm_1",1:demogix]
+    # demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demo_arm_1",1:demogix]
+    demog.dat <- all.dat[all.dat$redcap_repeat_instance==1]
     active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_arm_2",c(1:3,(demogix+1):activeix)]
     cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="cvc_arm_3",c(1:3,(activeix+1):clix)]
     hosp.dat <- all.dat[all.dat$redcap_repeat_instrument=="inpatient_arm_4",c(1:3,(clix+1):hospix)]
