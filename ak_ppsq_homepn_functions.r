@@ -35,11 +35,9 @@ today <- as.integer(mdy.date(12,08,2017))
 fname="hpn_redcap_api_alldata.csv"
 
 # below function reading redcap csv files & reading mrn from it so modifyiung it to read the instrument files and point to record
-readdata <- function(fname="hpn_redcap_api_data_new.csv")
-  regexpr(",",all.dat$mrn)-1
-substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1)
-as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
+all.dat$mrn
 
+readdata <- function(fname="hpn_redcap_api_data_new.csv")
 {
   read.csv
     # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
@@ -58,6 +56,7 @@ as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
 }
 
 aos <- active_on_service_rawdata
+aos$
 bloodstream <- bloodstream_infections_rawdata
 central <- central_line_rawdata
 demog <- demographics_rawdata
