@@ -6,9 +6,9 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 
 ###
 #updated date
-today <- as.integer(mdy.date(12,08,2017))
+today <- as.integer(mdy.date(12,10,2017))
 readdata()
-mrnlist <- unique(all.dat$mrn)
+mrnlist <- unique(alldata$mrn)
 mrnlist
 
 ###

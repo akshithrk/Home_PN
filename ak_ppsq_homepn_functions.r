@@ -12,7 +12,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # replacing the below to use format(Sys.Date(), "%d%b%Y") but error when converting to integer so leaving as is for now as data output not specific to dates
 # error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
-today <- as.integer(mdy.date(12,08,2017))
+today <- as.integer(mdy.date(12,10,2017))
 
 
 
@@ -62,7 +62,7 @@ aos <- active_on_service_rawdata
 as.integer(aos$record)
 bloodstream <- bloodstream_infections_rawdata
 central <- central_line_rawdata
-demog <- demographics_rawdata
+demog <- demographics_flat
 growth <- growth_data_rawdata
 ipenc <- inpatient_encounters_rawdata
 # iterventions <- interventions_rawdata
@@ -85,6 +85,8 @@ openc <- outpatient_encounters_rawdata
 # Prep data
 #####
 # below is appending all the ,mrn variables listed above and so replacing it with just one mrn available in the data set
+m1 <- 0
+m2=today
 prepdata <- function(mrnlist,m1=0,m2=today)
 {
   all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
@@ -161,13 +163,25 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     growth.dat$growth_wt_kg <- as.numeric(as.character(growth.dat$growth_wt_kg))
     growth.dat$growth_ht_cm <- as.numeric(as.character(growth.dat$growth_ht_cm))
     growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
-    growth.dat <- merge(growth.dat,demog.dat[,c(2,3,6)],all.x=T,all.y=F,by.x="growth_mrn",by.y="mrn")
-    growth.dat$ageyrs <- round((growth.dat$datein-as.integer(split.date(growth.dat$dob.y,char="-",ymd=T))+1)/365,1)
-    if (length(growth.dat$bmi)!=0)
-    {
-        for (i in 1:length(growth.dat$bmi)) growth.dat$bmiz[i] <- bmiz(growth.dat$bmi[i],growth.dat$ageyrs[i],1-growth.dat$gender_male[i])
-        growth.dat$bmiperc <- 100*round(pnorm(growth.dat$bmiz),3)
-    }
+    
+    
+    # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: redcap_repeat_instrument, 6: lname
+    
+    # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null
+    # demog.dat[,c(2,3,6)]
+    # demog[,c(1,2,3)]
+    # demog$dob
+    
+    # BMI calc missing becausae, demog data is missing and need to figure out how to join growth and demg data
+    # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T,all.y=F,by.x="mrn",by.y="mrn")
+    # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
+    # # ingnoring the below as dob data from demogs is null
+    # growth.dat$ageyrs <- round((growth.dat$datein - as.integer(split.date(growth.dat$dob.y,char="-", ymd=T))+1)/365,1)
+    # if (length(growth.dat$bmi)!=0)
+    # {
+    #     for (i in 1:length(growth.dat$bmi)) growth.dat$bmiz[i] <- bmiz(growth.dat$bmi[i],growth.dat$ageyrs[i],1-growth.dat$gender_male[i])
+    #     growth.dat$bmiperc <- 100*round(pnorm(growth.dat$bmiz),3)
+    # }
 
     nowactive <- !(active.dat$datein > m2 | active.dat$dateout < m1)
     nowcl <- !(cl.dat$datein > m2 | cl.dat$dateout < m1)
