@@ -33,6 +33,8 @@ today <- as.integer(mdy.date(12,08,2017))
 
 # replacing fname with individual instrument files instead of the raw.api file
 fname="hpn_redcap_api_alldata.csv"
+alldata="hpn_redcap_api_alldata.csv"
+alldata <- read.csv(alldata)
 
 # below function reading redcap csv files & reading mrn from it so modifyiung it to read the instrument files and point to record
 all.dat$mrn
@@ -94,28 +96,33 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     # all.dat <- all.dat[-34062,]
     
   # below is reading the individual files
-  # ak: removing the _complete as its not reflected in new redcap design
-    demogix <- which(names(all.dat)=="demographics")
-    activeix <- which(names(all.dat)=="active_on_service_complete")
-    clix <- which(names(all.dat)=="central_line_complete")
-    hospix <- which(names(all.dat)=="inpatient_encounters_complete")
-    bloodix <- which(names(all.dat)=="bloodstream_infections_complete")
-    nutrix <- which(names(all.dat)=="nutrition_intake_complete")
-    growthix <- which(names(all.dat)=="growth_data_complete")
-    liverix <- which(names(all.dat)=="liver_disease_complete")
-    outptix <- which(names(all.dat)=="outpatient_encounters_complete")
+  # ak: removing the _complete as its not reflected in new redcap design. But as all.dat has a lot of nulls switc
+  # ak: the below values exist as columns so retaining hte _complete 
+    # demogix <- which(names(all.dat)=="demographics_complete")
+  
+    demogix <- which(names(alldata)=="demographics_complete")
+    activeix <- which(names(alldata)=="active_on_service_complete")
+    clix <- which(names(alldata)=="central_line_complete")
+    hospix <- which(names(alldata)=="inpatient_encounters_complete")
+    bloodix <- which(names(alldata)=="bloodstream_infections_complete")
+    nutrix <- which(names(alldata)=="nutrition_intake_complete")
+    growthix <- which(names(alldata)=="growth_data_complete")
+    liverix <- which(names(alldata)=="liver_disease_complete")
+    outptix <- which(names(alldata)=="outpatient_encounters_complete")
     
+    # alldata$redcap_repeat_instrument=="%demogr%"
     # ak: rfom the following changing instrument to instance according to new redcap
     # demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demo_arm_1",1:demogix]
-    demog.dat <- all.dat[all.dat$redcap_repeat_instance==1]
-    active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_arm_2",c(1:3,(demogix+1):activeix)]
-    cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="cvc_arm_3",c(1:3,(activeix+1):clix)]
-    hosp.dat <- all.dat[all.dat$redcap_repeat_instrument=="inpatient_arm_4",c(1:3,(clix+1):hospix)]
-    blood.dat <- all.dat[all.dat$redcap_repeat_instrument=="blood_arm_5",c(1:3,(hospix+1):bloodix)]
-    nutr.dat <- all.dat[all.dat$redcap_repeat_instrument=="nutrition_arm_6",c(1:3,(bloodix+1):nutrix)]
-    growth.dat <- all.dat[all.dat$redcap_repeat_instrument=="growth_arm_7",c(1:3,(nutrix+1):growthix)]
-    liver.dat <- all.dat[all.dat$redcap_repeat_instrument=="liver_arm_8",c(1:3,(growthix+1):liverix)]
-    outpt.dat <- all.dat[all.dat$redcap_repeat_instrument=="outpatient_arm_9",c(1:3,(liverix+1):outptix)]
+    
+    demog.dat <- alldata[alldata$redcap_repeat_instrument=="demographics",1:demogix]
+    active.dat <- alldata[alldata$redcap_repeat_instrument=="active_on_service", c(1:3,(demogix+1):activeix)]
+    cl.dat <- alldata[alldata$redcap_repeat_instrument=="central_line",c(1:3,(activeix+1):clix)]
+    hosp.dat <- alldata[alldata$redcap_repeat_instrument=="inpatient_encounters",c(1:3,(clix+1):hospix)]
+    blood.dat <- alldata[alldata$redcap_repeat_instrument=="bloodstream_infections",c(1:3,(hospix+1):bloodix)]
+    nutr.dat <- alldata[alldata$redcap_repeat_instrument=="nutrition_intake",c(1:3,(bloodix+1):nutrix)]
+    growth.dat <- alldata[alldata$redcap_repeat_instrument=="growth_data",c(1:3,(nutrix+1):growthix)]
+    liver.dat <- alldata[alldata$redcap_repeat_instrument=="liver_disease",c(1:3,(growthix+1):liverix)]
+    outpt.dat <- alldata[alldata$redcap_repeat_instrument=="outpatient_encounters",c(1:3,(liverix+1):outptix)]
 
     active.dat$datein <- as.integer(split.date(active.dat$svc_start,char="-",ymd=T))
     active.dat$dateout <- as.integer(split.date(active.dat$svc_stop,char="-",ymd=T))
@@ -149,7 +156,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     growth.dat$datein <- replace(growth.dat$datein,growth.dat$datein>today,today)
     liver.dat$datein <- replace(liver.dat$datein,liver.dat$datein>today,today)
     outpt.dat$datein <- replace(outpt.dat$datein,outpt.dat$datein>today,today)
-
+    
     growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
     growth.dat <- merge(growth.dat,demog.dat[,c(2,3,6)],all.x=T,all.y=F,by.x="growth_mrn",by.y="mrn")
     growth.dat$ageyrs <- round((growth.dat$datein-as.integer(split.date(growth.dat$dob.y,char="-",ymd=T))+1)/365,1)
