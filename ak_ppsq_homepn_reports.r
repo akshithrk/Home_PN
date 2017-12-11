@@ -52,8 +52,14 @@ prepdata(mrnlist)
 #prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
 #prepdata(lowrisk2,mdy.date(3,1,2018),mdy.date(12,31,2018))
 
-nyears <- 5
+# nyears <- 5 ak: incresing this to 8 to include current date
+nyears <- 8
 clreport <- matrix(NA,12*nyears,18)
+clreport
+
+# i = 1
+i = 4
+
 for (i in 1:nyears) for (j in 1:12)
 {
     index <- (12*(i-1)+j)
