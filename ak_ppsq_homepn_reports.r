@@ -1,4 +1,4 @@
-
+getwd()
 setwd("P:/R/Home_PN/Home_PN")
 source("P:/R/Home_PN/Home_PN/ak_helperfunctions.r")
 source("P:/R/Home_PN/Home_PN/ak_ppsq_homepn_functions.r")
@@ -42,6 +42,9 @@ lowrisk2 <- c(352225,353847,1098632,1232971,2077612,2152049,2154352,2248746,2273
                 4826998,4834902,4838949,4841176,4848671,4858091,4862326,4864238,4868969,4871820,4873598,4873723,4873769,4877831,4889465,
                 4898219,4912540,4914556)
 
+# to check if any of the above mrns exist in redcap data mrnlist
+# subset(mrnlist, mrnlist %in% alclocklist)
+
 #####
 # Main report
 #####
@@ -55,10 +58,11 @@ prepdata(mrnlist)
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 8
 clreport <- matrix(NA,12*nyears,18)
-clreport
+# clreport
 
 # i = 1
-i = 4
+# i = 4
+as.integer(format(Sys.Date(),"%Y"))
 
 for (i in 1:nyears) for (j in 1:12)
 {
