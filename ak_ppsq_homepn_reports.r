@@ -179,7 +179,8 @@ nsub.figs <- rep(NA,4)
 newhpn.figs <- rep(NA,4)
 hosp.figs <- rep(NA,4)
 
-for (i in 1:4)
+# for (i in 1:4) ak: changing this so that it reflects 2018
+for (i in 1:8)
 {
     targetyear <- 2011 + i
     m1 <- as.integer(mdy.date(1,1,targetyear))
@@ -232,6 +233,7 @@ plot(2012:2018,newhpn.figs,type="l",main="New start Home PN unique patients enro
 plot(2012:2018,hosp.figs,type="l",main="Home PN hospital discharges at BCH",ylab="Total patients",xlab="Year",lwd=2)
 
 dev.off()
+
 
 ###
 # Same day central line report

@@ -166,12 +166,12 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     
     
     # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: redcap_repeat_instrument, 6: lname
-    
+
     # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null
     # demog.dat[,c(2,3,6)]
     # demog[,c(1,2,3)]
     # demog$dob
-    
+
     # BMI calc missing becausae, demog data is missing and need to figure out how to join growth and demg data
     # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T,all.y=F,by.x="mrn",by.y="mrn")
     # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
