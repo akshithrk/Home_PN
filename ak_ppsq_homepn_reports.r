@@ -44,6 +44,9 @@ lowrisk2 <- c(352225,353847,1098632,1232971,2077612,2152049,2154352,2248746,2273
 
 # to check if any of the above mrns exist in redcap data mrnlist
 # subset(mrnlist, mrnlist %in% alclocklist)
+# alldata[alclocklist %in% alldata$mrn]
+# ?"%in%"
+match(alclocklist, alldata$mrn)
 
 #####
 # Main report
