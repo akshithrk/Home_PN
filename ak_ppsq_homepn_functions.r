@@ -88,6 +88,7 @@ outpatient <- outpatient_encounters_rawdata
 # below is appending all the ,mrn variables listed above and so replacing it with just one mrn available in the data set
 m1 <- 0
 m2=today
+# prepdata <- function(mrnlist,m1=0,m2=today)
 prepdata <- function(mrnlist,m1=0,m2=today)
 {
   # changing all.dat to alldata in the following 2 lines

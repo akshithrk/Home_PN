@@ -63,9 +63,10 @@ nyears <- 8
 clreport <- matrix(NA,12*nyears,18)
 # clreport
 
-i = 1
+# i = 1
 # i = 4
 as.integer(format(Sys.Date(),"%Y"))
+
 
 for (i in 1:nyears) for (j in 1:12)
 {
@@ -76,6 +77,8 @@ for (i in 1:nyears) for (j in 1:12)
     if (j==12) m2 <- mdy.date(12,31,clyr) else m2 <- mdy.date(j+1,1,clyr)-1
     clreport[index,] <- c(clmo,clyr,calcdash(m1,m2))
 }
+# is.atomic(clreport) FALSE
+# is.recursive(clreport) TRUE
 
 clreport <- data.frame(clreport)
 names(clreport) <- c("month","year","cldays","cldaysnew","clabsi","clabsinew","clabsirate","npats","unplanhosp","los.median","percout","newhpn","death","transfer","weanoff","outptenc","remclabsi","medbmi")
