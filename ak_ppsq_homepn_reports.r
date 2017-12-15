@@ -63,7 +63,7 @@ nyears <- 8
 clreport <- matrix(NA,12*nyears,18)
 # clreport
 
-# i = 1
+i = 1
 # i = 4
 as.integer(format(Sys.Date(),"%Y"))
 
