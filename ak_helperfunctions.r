@@ -154,3 +154,4 @@ groups <- function(dat,num=10)
     for (i in 1:(num-1)) xcat <- xcat + as.numeric(dat < xbrk[i])
     return(num - xcat)
 }
+
