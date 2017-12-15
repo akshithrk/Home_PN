@@ -12,7 +12,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # replacing the below to use format(Sys.Date(), "%d%b%Y") but error when converting to integer so leaving as is for now as data output not specific to dates
 # error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
-today <- as.integer(mdy.date(12,10,2017))
+today <- as.integer(mdy.date(12,15,2017))
 
 
 
