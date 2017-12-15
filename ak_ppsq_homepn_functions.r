@@ -45,7 +45,7 @@ readdata <- function(fname="hpn_redcap_api_data_new.csv")
     # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
     all.dat <- read.csv(fname)[,-1]
     # all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
-    all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
+    # all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
     # all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
     # all.dat$cvc_mrn <- as.integer(substr(all.dat$cvc_mrn,1,regexpr(",",all.dat$cvc_mrn)-1))
     # all.dat$inpt_mrn <- as.integer(substr(all.dat$inpt_mrn,1,regexpr(",",all.dat$inpt_mrn)-1))
@@ -56,19 +56,20 @@ readdata <- function(fname="hpn_redcap_api_data_new.csv")
     # all.dat$outpt_mrn <- as.integer(substr(all.dat$outpt_mrn,1,regexpr(",",all.dat$outpt_mrn)-1))
     all.dat <<- all.dat
 }
-
+# str(alldata)
 aos <- active_on_service_rawdata
 # aos$record same as as.integer yet sticking to as.integer
+# str(aos)
 as.integer(aos$record)
 bloodstream <- bloodstream_infections_rawdata
 central <- central_line_rawdata
 demog <- demographics_flat
 growth <- growth_data_rawdata
-ipenc <- inpatient_encounters_rawdata
+inpatient <- inpatient_encounters_rawdata
 # iterventions <- interventions_rawdata
 liver <- liver_disease_rawdata
 # nutrition <- nut_rawdata
-openc <- outpatient_encounters_rawdata
+outpatient <- outpatient_encounters_rawdata
 
 
 #####trying cut function as the above is giving the error: relacement has 0 & data has xxx which could be because of knows issue of new variable needs to be created first before conditional statement can work 
@@ -89,8 +90,10 @@ m1 <- 0
 m2=today
 prepdata <- function(mrnlist,m1=0,m2=today)
 {
-  all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
-  all.dat <- all.dat
+  # changing all.dat to alldata in the following 2 lines
+  # all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
+  # all.dat <- all.dat
+  
     # all.dat <- all.dat[all.dat$mrn %in% mrnlist | all.dat$active_mrn %in% mrnlist | all.dat$cvc_mrn %in% mrnlist
     #                         | all.dat$inpt_mrn %in% mrnlist | all.dat$bld_mrn %in% mrnlist | all.dat$nutr_mrn %in% mrnlist
     #                         | all.dat$growth_mrn %in% mrnlist | all.dat$liver_mrn %in% mrnlist | all.dat$outpt_mrn %in% mrnlist,]
@@ -102,6 +105,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   # ak: the below values exist as columns so retaining hte _complete 
     # demogix <- which(names(all.dat)=="demographics_complete")
   
+    # below gets the number of records in each of the instrument category
     demogix <- which(names(alldata)=="demographics_complete")
     activeix <- which(names(alldata)=="active_on_service_complete")
     clix <- which(names(alldata)=="central_line_complete")
@@ -111,20 +115,31 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     growthix <- which(names(alldata)=="growth_data_complete")
     liverix <- which(names(alldata)=="liver_disease_complete")
     outptix <- which(names(alldata)=="outpatient_encounters_complete")
-    
+
     # alldata$redcap_repeat_instrument=="%demogr%"
     # ak: rfom the following changing instrument to instance according to new redcap
     # demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demo_arm_1",1:demogix]
     
-    demog.dat <- alldata[alldata$redcap_repeat_instrument=="demographics",1:demogix]
-    active.dat <- alldata[alldata$redcap_repeat_instrument=="active_on_service", c(1:3,(demogix+1):activeix)]
-    cl.dat <- alldata[alldata$redcap_repeat_instrument=="central_line",c(1:3,(activeix+1):clix)]
-    hosp.dat <- alldata[alldata$redcap_repeat_instrument=="inpatient_encounters",c(1:3,(clix+1):hospix)]
-    blood.dat <- alldata[alldata$redcap_repeat_instrument=="bloodstream_infections",c(1:3,(hospix+1):bloodix)]
-    nutr.dat <- alldata[alldata$redcap_repeat_instrument=="nutrition_intake",c(1:3,(bloodix+1):nutrix)]
-    growth.dat <- alldata[alldata$redcap_repeat_instrument=="growth_data",c(1:3,(nutrix+1):growthix)]
-    liver.dat <- alldata[alldata$redcap_repeat_instrument=="liver_disease",c(1:3,(growthix+1):liverix)]
-    outpt.dat <- alldata[alldata$redcap_repeat_instrument=="outpatient_encounters",c(1:3,(liverix+1):outptix)]
+    # the below was designed to old redcap which had all the data in an order
+    # demog.dat <- alldata[alldata$redcap_repeat_instrument=="demographics",1:demogix]
+    # active.dat <- alldata[alldata$redcap_repeat_instrument=="active_on_service", c(1:3,(demogix+1):activeix)]
+    # cl.dat <- alldata[alldata$redcap_repeat_instrument=="central_line",c(1:3,(activeix+1):clix)]
+    # hosp.dat <- alldata[alldata$redcap_repeat_instrument=="inpatient_encounters",c(1:3,(clix+1):hospix)]
+    # blood.dat <- alldata[alldata$redcap_repeat_instrument=="bloodstream_infections",c(1:3,(hospix+1):bloodix)]
+    # nutr.dat <- alldata[alldata$redcap_repeat_instrument=="nutrition_intake",c(1:3,(bloodix+1):nutrix)]
+    # growth.dat <- alldata[alldata$redcap_repeat_instrument=="growth_data",c(1:3,(nutrix+1):growthix)]
+    # liver.dat <- alldata[alldata$redcap_repeat_instrument=="liver_disease",c(1:3,(growthix+1):liverix)]
+    # outpt.dat <- alldata[alldata$redcap_repeat_instrument=="outpatient_encounters",c(1:3,(liverix+1):outptix)]
+    
+    demog.dat <- alldata[alldata$redcap_repeat_instrument=="NA",]
+    active.dat <- alldata[alldata$redcap_repeat_instrument=="active_on_service",]
+    cl.dat <- alldata[alldata$redcap_repeat_instrument=="central_line",]
+    hosp.dat <- alldata[alldata$redcap_repeat_instrument=="inpatient_encounters",]
+    blood.dat <- alldata[alldata$redcap_repeat_instrument=="bloodstream_infections",]
+    nutr.dat <- alldata[alldata$redcap_repeat_instrument=="nutrition_intake",]
+    growth.dat <- alldata[alldata$redcap_repeat_instrument=="growth_data",]
+    liver.dat <- alldata[alldata$redcap_repeat_instrument=="liver_disease",]
+    outpt.dat <- alldata[alldata$redcap_repeat_instrument=="outpatient_encounters",]
 
     active.dat$datein <- as.integer(split.date(active.dat$svc_start,char="-",ymd=T))
     active.dat$dateout <- as.integer(split.date(active.dat$svc_stop,char="-",ymd=T))
@@ -163,8 +178,8 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     growth.dat$growth_wt_kg <- as.numeric(as.character(growth.dat$growth_wt_kg))
     growth.dat$growth_ht_cm <- as.numeric(as.character(growth.dat$growth_ht_cm))
     growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
-    
-    
+
+    # str(demog.dat)
     # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: redcap_repeat_instrument, 6: lname
 
     # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null
@@ -172,9 +187,10 @@ prepdata <- function(mrnlist,m1=0,m2=today)
     # demog[,c(1,2,3)]
     # demog$dob
 
-    # BMI calc missing becausae, demog data is missing and need to figure out how to join growth and demg data
+    # BMI calc missing because, demog data is missing and need to figure out how to join growth and demg data
     # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T,all.y=F,by.x="mrn",by.y="mrn")
     # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
+    
     # # ingnoring the below as dob data from demogs is null
     # growth.dat$ageyrs <- round((growth.dat$datein - as.integer(split.date(growth.dat$dob.y,char="-", ymd=T))+1)/365,1)
     # if (length(growth.dat$bmi)!=0)
@@ -210,13 +226,14 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 # Function to count CL days for given MRN
 #####
 # as new redcap has one mrn for all instruments, commenting variables for event specific mrn's out for the previous design
+
 countcldays <- function(targetmrn,mask1=0,mask2=today)
 {
     this.dat1 <- active.dat[active.dat$mrn==targetmrn,]
-    # this.dat2 <- cl.dat[cl.dat$cvc_mrn==targetmrn,]
-    # this.dat3 <- hosp.dat[hosp.dat$inpt_mrn==targetmrn,]
-    # this.dat4 <- blood.dat[blood.dat$bld_mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
-    # firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+    this.dat2 <- cl.dat[cl.dat$cvc_mrn==targetmrn,]
+    this.dat3 <- hosp.dat[hosp.dat$inpt_mrn==targetmrn,]
+    this.dat4 <- blood.dat[blood.dat$bld_mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+    firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
     firstdate <- min(this.dat1$datein,na.rm=T)
     ndays <- today - firstdate + 1
     if (ndays < 1) return(rep(0,5))

@@ -6,10 +6,10 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 
 ###
 #updated date
-today <- as.integer(mdy.date(12,10,2017))
+today <- as.integer(mdy.date(12,15,2017))
 readdata()
 mrnlist <- unique(alldata$mrn)
-mrnlist
+# mrnlist
 
 ###
 # MRN lists for various cohorts
@@ -42,21 +42,21 @@ lowrisk2 <- c(352225,353847,1098632,1232971,2077612,2152049,2154352,2248746,2273
                 4826998,4834902,4838949,4841176,4848671,4858091,4862326,4864238,4868969,4871820,4873598,4873723,4873769,4877831,4889465,
                 4898219,4912540,4914556)
 
-# to check if any of the above mrns exist in redcap data mrnlist
+# to check if any of the above mrns exist in redcap data mrnlist (they do)
 # subset(mrnlist, mrnlist %in% alclocklist)
 # alldata[alclocklist %in% alldata$mrn]
 # ?"%in%"
-match(alclocklist, alldata$mrn)
+# match(alclocklist, alldata$mrn)
 
 #####
 # Main report
 #####
 
 prepdata(mrnlist)
-#prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
-#prepdata(highrisk2,mdy.date(3,1,2018),mdy.date(12,31,2018))
-#prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
-#prepdata(lowrisk2,mdy.date(3,1,2018),mdy.date(12,31,2018))
+prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
+prepdata(highrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
+prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
+prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 8
