@@ -223,6 +223,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
                         "Growth records:            ",length(growth.dat$mrn),"\n","Nutrition records:         ",length(nutr.dat$mrn),"\n"))
 }
 
+
 #####
 # Function to count CL days for given MRN
 #####
