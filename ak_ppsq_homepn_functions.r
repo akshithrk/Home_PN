@@ -224,7 +224,6 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 }
 
 
-
 #####
 # Function to count CL days for given MRN
 #####
