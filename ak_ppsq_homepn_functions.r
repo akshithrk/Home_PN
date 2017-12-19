@@ -268,6 +268,7 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
     return(data.frame(cldays,cldaysnew,clabsi,clabsinew,readmitnew))
 }
 
+
 ######################
 
 #####
