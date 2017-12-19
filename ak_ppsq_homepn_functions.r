@@ -12,7 +12,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # replacing the below to use format(Sys.Date(), "%d%b%Y") but error when converting to integer so leaving as is for now as data output not specific to dates
 # error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
-today <- as.integer(mdy.date(12,15,2017))
+today <- as.integer(mdy.date(3,1,2015))
 
 
 
@@ -32,20 +32,21 @@ today <- as.integer(mdy.date(12,15,2017))
 # write.csv(test_with_na_strings, paste0("test_hpn_redcap_api_data_new_with_na.strings",format(Sys.time(), "%Y %b %d %H.%M"),".csv"))
 
 # replacing fname with individual instrument files instead of the raw.api file
-fname="hpn_redcap_api_alldata.csv"
-alldata="hpn_redcap_api_alldata.csv"
-alldata <- read.csv(alldata)
+# fname="hpn_redcap_api_alldata.csv"
+# alldata="hpn_redcap_api_alldata.csv"
+# alldata <- read.csv(alldata)
 
 # below function reading redcap csv files & reading mrn from it so modifyiung it to read the instrument files and point to record
-all.dat$mrn
+# all.dat$mrn
 
-readdata <- function(fname="hpn_redcap_api_data_new.csv")
+# readdata <- function(fname="hpn_redcap_api_data_new.csv")
+readdata <- function(fname="NEWHomePNDatabaseALL_DATA_2017-12-19_1603.csv")
 {
   read.csv
     # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
     all.dat <- read.csv(fname)[,-1]
     # all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
-    # all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
+    all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
     # all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
     # all.dat$cvc_mrn <- as.integer(substr(all.dat$cvc_mrn,1,regexpr(",",all.dat$cvc_mrn)-1))
     # all.dat$inpt_mrn <- as.integer(substr(all.dat$inpt_mrn,1,regexpr(",",all.dat$inpt_mrn)-1))
@@ -57,19 +58,19 @@ readdata <- function(fname="hpn_redcap_api_data_new.csv")
     all.dat <<- all.dat
 }
 # str(alldata)
-aos <- active_on_service_rawdata
-# aos$record same as as.integer yet sticking to as.integer
-# str(aos)
-as.integer(aos$record)
-bloodstream <- bloodstream_infections_rawdata
-central <- central_line_rawdata
-demog <- demographics_flat
-growth <- growth_data_rawdata
-inpatient <- inpatient_encounters_rawdata
-# iterventions <- interventions_rawdata
-liver <- liver_disease_rawdata
-# nutrition <- nut_rawdata
-outpatient <- outpatient_encounters_rawdata
+# aos <- active_on_service_rawdata
+# # aos$record same as as.integer yet sticking to as.integer
+# # str(aos)
+# as.integer(aos$record)
+# bloodstream <- bloodstream_infections_rawdata
+# central <- central_line_rawdata
+# demog <- demographics_flat
+# growth <- growth_data_rawdata
+# inpatient <- inpatient_encounters_rawdata
+# # iterventions <- interventions_rawdata
+# liver <- liver_disease_rawdata
+# # nutrition <- nut_rawdata
+# outpatient <- outpatient_encounters_rawdata
 
 
 #####trying cut function as the above is giving the error: relacement has 0 & data has xxx which could be because of knows issue of new variable needs to be created first before conditional statement can work 
@@ -86,18 +87,20 @@ outpatient <- outpatient_encounters_rawdata
 # Prep data
 #####
 # below is appending all the ,mrn variables listed above and so replacing it with just one mrn available in the data set
-m1 <- 0
-m2=today
+# m1 <- 0
+# m2=today
 # prepdata <- function(mrnlist,m1=0,m2=today)
+
 prepdata <- function(mrnlist,m1=0,m2=today)
 {
   # changing all.dat to alldata in the following 2 lines
-  # all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
-  # all.dat <- all.dat
+  all.dat <- all.dat[all.dat$mrn %in% mrnlist,]
+  all.dat <- all.dat
   
     # all.dat <- all.dat[all.dat$mrn %in% mrnlist | all.dat$active_mrn %in% mrnlist | all.dat$cvc_mrn %in% mrnlist
     #                         | all.dat$inpt_mrn %in% mrnlist | all.dat$bld_mrn %in% mrnlist | all.dat$nutr_mrn %in% mrnlist
     #                         | all.dat$growth_mrn %in% mrnlist | all.dat$liver_mrn %in% mrnlist | all.dat$outpt_mrn %in% mrnlist,]
+  
     # below line tells to skip the first 34062 rows but get all the columns so removig this logic
     # all.dat <- all.dat[-34062,]
     
@@ -252,10 +255,10 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
 
     if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
     if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) for (j in 1:ndays) if (is.na(firstdayhome)) next else newhpn[j] <- as.numeric(((today-j+1) - firstdayhome) <= 30 & ((today-j+1) - firstdayhome) >= 0)
-    # if (length(this.dat2$cvc_mrn)>0) for (i in 1:length(this.dat2$cvc_mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
-    # if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
-    # if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
-    # if (length(this.dat4$bld_mrn)>0) for (i in 1:length(this.dat4$bld_mrn)) bloodinf[(today-this.dat4$datein[i]+1)] <- 1
+    if (length(this.dat2$cvc_mrn)>0) for (i in 1:length(this.dat2$cvc_mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
+    if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
+    if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
+    if (length(this.dat4$bld_mrn)>0) for (i in 1:length(this.dat4$bld_mrn)) bloodinf[(today-this.dat4$datein[i]+1)] <- 1
 
     if (mask2 < firstdate) mask2 <- firstdate
     if (mask1 > today) mask1 <- today
@@ -365,11 +368,12 @@ calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
     nenterop <- sum(demog.dat$diag_enterop[demog.dat$mrn[i] %in% activelist],na.rm=T)
     nmotil <- sum(demog.dat$diag_motility[demog.dat$mrn[i] %in% activelist],na.rm=T)
     nmisc <- sum(demog.dat$diag_pn[demog.dat$mrn[i] %in% activelist],na.rm=T)
+    
     # replacing the cvc_mrn to mrn below because cl.dat is the active.data with the respective column contains cl related words
     ncl <- length(cl.dat$mrn[cl.dat$mrn[i] %in% activelist])
     nbrov <- sum(cl.dat$insert_type[cl.dat$mrn[i] %in% activelist]==1,na.rm=T)
     npicc <- sum(cl.dat$insert_type[cl.dat$mrn[i] %in% activelist]==2,na.rm=T)
-    nportcath <- sum(cl.dat$insert_type==3[cl.dat$mrn[i] %in% activelist], na.rm=T)
+    nportcath <- sum(cl.dat$insert_type==3[cl.dat$mrn[i] %in% activelist],na.rm=T)
 
     if (tabprint)
     {

@@ -6,6 +6,7 @@ library(survival)
 library(date)
 library(splines)
 setwd("P:/R/Home_PN/Home_PN")
+# getwd()
 
 mklist <- function(n) vector("list",n)
 
