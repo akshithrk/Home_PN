@@ -7,10 +7,10 @@ source("P:/R/Home_PN/Home_PN/ak_ppsq_homepn_functions.r")
 
 ###
 #updated date
-today <- as.integer(mdy.date(12,15,2017))
+today <- as.integer(mdy.date(12,31,2015))
 readdata()
-mrnlist <- unique(alldata$mrn)
-# mrnlist
+mrnlist <- unique(all.dat$mrn)
+mrnlist
 
 ###
 # MRN lists for various cohorts
