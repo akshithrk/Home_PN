@@ -40,6 +40,7 @@ today <- as.integer(mdy.date(3,1,2015))
 # all.dat$mrn
 
 # readdata <- function(fname="hpn_redcap_api_data_new.csv")
+# rm(all.dat)
 readdata <- function(fname="NEWHomePNDatabaseALL_DATA_2017-12-19_1603.csv")
 {
   read.csv
