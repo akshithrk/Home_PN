@@ -129,7 +129,7 @@ blsd2 <- sd(log(replace(x2,x2==0,NA)),na.rm=T)
 uplim2 <- exp(bl2+1.645*blsd2)
 outlier2 <- (x2 > uplim2)
 
-par(xaxt="n")b
+par(xaxt="n")
 plot(x,type="n",lwd=3,main="Community acquired CLABSI rate per 1000 line days ",xlab="Calendar year",ylab="Rate",ylim=c(0,1.15*max(uplim1,uplim2,na.rm=T)),frame=T)
 for (i in 1:10) lines(c(24.5 + i/10,24.5 + i/10),c(0,1.15*max(uplim1,uplim2)),lwd=3,col="grey")
 lines(x,lwd=3)
