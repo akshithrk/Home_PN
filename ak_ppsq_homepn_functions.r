@@ -12,7 +12,8 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # replacing the below to use format(Sys.Date(), "%d%b%Y") but error when converting to integer so leaving as is for now as data output not specific to dates
 # error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
-today <- as.integer(mdy.date(3,1,2015))
+# today <- as.integer(mdy.date(3,1,2015))
+today <- as.integer(mdy.date(12,20,2017))
 
 
 
@@ -188,24 +189,25 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
   
   # str(demog.dat)
-  # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: redcap_repeat_instrument, 6: lname
+  # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: dob, 6: gender_male
   
   # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null
-  # demog.dat[,c(2,3,6)]
+  # merge <- demog.dat[,c(1, 4,7)]
   # demog[,c(1,2,3)]
   # demog$dob
-  
+
+  growth.dat <- merge(growth.dat,demog.dat[,c(1,4,7)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
   # BMI calc missing because, demog data is missing and need to figure out how to join growth and demg data
   # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T,all.y=F,by.x="mrn",by.y="mrn")
   # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
   
   # # ingnoring the below as dob data from demogs is null
-  # growth.dat$ageyrs <- round((growth.dat$datein - as.integer(split.date(growth.dat$dob.y,char="-", ymd=T))+1)/365,1)
-  # if (length(growth.dat$bmi)!=0)
-  # {
-  #     for (i in 1:length(growth.dat$bmi)) growth.dat$bmiz[i] <- bmiz(growth.dat$bmi[i],growth.dat$ageyrs[i],1-growth.dat$gender_male[i])
-  #     growth.dat$bmiperc <- 100*round(pnorm(growth.dat$bmiz),3)
-  # }
+  growth.dat$ageyrs <- round((growth.dat$datein - as.integer(split.date(growth.dat$dob.y,char="-", ymd=T))+1)/365,1)
+  if (length(growth.dat$bmi)!=0)
+  {
+      for (i in 1:length(growth.dat$bmi)) growth.dat$bmiz[i] <- bmiz(growth.dat$bmi[i],growth.dat$ageyrs[i],1-growth.dat$gender_male[i])
+      growth.dat$bmiperc <- 100*round(pnorm(growth.dat$bmiz),3)
+  }
   
   nowactive <- !(active.dat$datein > m2 | active.dat$dateout < m1)
   nowcl <- !(cl.dat$datein > m2 | cl.dat$dateout < m1)
@@ -243,12 +245,18 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 
 countcldays <- function(targetmrn,mask1=0,mask2=today)
 {
-  this.dat1 <- active.dat[active.dat$mrn==targetmrn,]
-  this.dat2 <- cl.dat[cl.dat$mrn==targetmrn,]
-  this.dat3 <- hosp.dat[hosp.dat$mrn==targetmrn,]
-  this.dat4 <- blood.dat[blood.dat$mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
-  firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+  # this.dat1 <- active.dat[active.dat$mrn==mrnlist,]
+  # this.dat2 <- cl.dat[cl.dat$mrn==targetmrn,]
+  # this.dat3 <- hosp.dat[hosp.dat$mrn==targetmrn,]
+  # this.dat4 <- blood.dat[blood.dat$mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+  # firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
 
+  this.dat1 <- active.dat[active.dat$mrn==mrnlist,]
+  this.dat2 <- cl.dat[cl.dat$mrn==mrnlist,]
+  this.dat3 <- hosp.dat[hosp.dat$mrn==mrnlist,]
+  this.dat4 <- blood.dat[blood.dat$mrn==mrnlist & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+  firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+  
   ndays <- today - firstdate + 1
   if (ndays < 1) return(rep(0,5))
   firstdayhome <- NA
@@ -308,8 +316,8 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
 # 16. Direct bilirubin >= 2 #/%
 #####
 
-m1=0
-m2 = today
+# m1=0
+# m2 = today
 
 calcdash <- function(m1=0,m2=today)
 {
