@@ -9,9 +9,10 @@ source("P:/R/Home_PN/Home_PN/ak_ppsq_homepn_functions.r")
 #updated date
 today <- as.integer(mdy.date(12,31,2017))
 readdata()
+# replacing the all.dat dataset with the first 12672 rows as everything following isnt in proper formatting
+# original all.dat <- 12681 rows and trimmed all.dat <- 12672 rows
+all.dat <- all.dat[1:12672,]
 mrnlist <- unique(all.dat$mrn)
-# mrnlist
-# rm(all.dat)
 
 ###
 # MRN lists for various cohorts
@@ -59,6 +60,10 @@ prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
 prepdata(highrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
 prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
+
+# countcldays(0100701)
+# calcdash(m1, m2)
+
 
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 5

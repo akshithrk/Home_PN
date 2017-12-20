@@ -215,14 +215,15 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   nownutr <- !(nutr.dat$datein > m2 | nutr.dat$datein < m1)
   nowoutpt <- !(outpt.dat$datein > m2 | outpt.dat$datein < m1)
   
-  demog.dat <<- demog.dat
-  active.dat <<- active.dat[nowactive,]
-  cl.dat <<- cl.dat[nowcl,]
-  blood.dat <<- blood.dat[nowblood,]
-  hosp.dat <<- hosp.dat[nowhosp,]
-  outpt.dat <<- outpt.dat[nowoutpt,]
-  growth.dat <<- growth.dat[nowgrowth,]
-  nutr.dat <<- nutr.dat[nownutr,]
+  # active.dat[nowactive,]
+  # demog.dat <<- demog.dat
+  # active.dat <<- active.dat[nowactive,]
+  # cl.dat <<- cl.dat[nowcl,]
+  # blood.dat <<- blood.dat[nowblood,]
+  # hosp.dat <<- hosp.dat[nowhosp,]
+  # outpt.dat <<- outpt.dat[nowoutpt,]
+  # growth.dat <<- growth.dat[nowgrowth,]
+  # nutr.dat <<- nutr.dat[nownutr,]
   
   return(cat("Demographic records:        ",length(demog.dat$mrn),"\n","Active service records:    ",length(active.dat$mrn),"\n",
              "Central line records:      ",length(cl.dat$mrn),"\n","Blood infection records:   ",length(blood.dat$mrn),"\n",
@@ -239,6 +240,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 # 'bcx_site' %in% colnames(blood.dat)
 # 'clabsi_commun' %in% colnames(blood.dat)
 # from the following countcldays function other than active.dat, replacing the xxx_mrn to just mrn to reflect new redcap changes
+
 countcldays <- function(targetmrn,mask1=0,mask2=today)
 {
   this.dat1 <- active.dat[active.dat$mrn==targetmrn,]
@@ -250,7 +252,10 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   ndays <- today - firstdate + 1
   if (ndays < 1) return(rep(0,5))
   firstdayhome <- NA
-  if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) if (this.dat1$st_start[i]==1) firstdayhome <- this.dat1$datein[i]
+  if (length(this.dat1$mrn)>0) 
+    for (i in 1:length(this.dat1$mrn)) 
+      if (this.dat1$st_start[i]==1) 
+        firstdayhome <- this.dat1$datein[i]
   
   isactive <- rep(0,ndays)
   newhpn <- rep(0,ndays)
@@ -302,6 +307,9 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
 # 15. BMI less than 3rd percentile #/%
 # 16. Direct bilirubin >= 2 #/%
 #####
+
+m1=0
+m2 = today
 
 calcdash <- function(m1=0,m2=today)
 {
