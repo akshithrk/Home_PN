@@ -233,12 +233,15 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 #####
 # as new redcap has one mrn for all instruments, commenting variables for event specific mrn's out for the previous design
 
+# 'bcx_site' %in% colnames(blood.dat)
+# 'clabsi_commun' %in% colnames(blood.dat)
+# from the following countcldays function other than active.dat, replacing the xxx_mrn to just mrn to reflect new redcap changes
 countcldays <- function(targetmrn,mask1=0,mask2=today)
 {
   this.dat1 <- active.dat[active.dat$mrn==targetmrn,]
-  this.dat2 <- cl.dat[cl.dat$cvc_mrn==targetmrn,]
-  this.dat3 <- hosp.dat[hosp.dat$inpt_mrn==targetmrn,]
-  this.dat4 <- blood.dat[blood.dat$bld_mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+  this.dat2 <- cl.dat[cl.dat$mrn==targetmrn,]
+  this.dat3 <- hosp.dat[hosp.dat$mrn==targetmrn,]
+  this.dat4 <- blood.dat[blood.dat$mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
   firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
   firstdate <- min(this.dat1$datein,na.rm=T)
   ndays <- today - firstdate + 1
