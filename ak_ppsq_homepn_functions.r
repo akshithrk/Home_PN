@@ -257,11 +257,12 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   datemask <- rep(0,ndays)
   bloodinf <- rep(0,ndays)
   
+  # replaced cvc_mrn, inpt_mrn, bld_mrn from the following to just mrm to reflect new redcap
   if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
   if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) for (j in 1:ndays) if (is.na(firstdayhome)) next else newhpn[j] <- as.numeric(((today-j+1) - firstdayhome) <= 30 & ((today-j+1) - firstdayhome) >= 0)
-  if (length(this.dat2$cvc_mrn)>0) for (i in 1:length(this.dat2$cvc_mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
-  if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
-  if (length(this.dat3$inpt_mrn)>0) for (i in 1:length(this.dat3$inpt_mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
+  if (length(this.dat2$mrn)>0) for (i in 1:length(this.dat2$mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
+  if (length(this.dat3$mrn)>0) for (i in 1:length(this.dat3$mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
+  if (length(this.dat3$mrn)>0) for (i in 1:length(this.dat3$mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
   if (length(this.dat4$bld_mrn)>0) for (i in 1:length(this.dat4$bld_mrn)) bloodinf[(today-this.dat4$datein[i]+1)] <- 1
   
   if (mask2 < firstdate) mask2 <- firstdate
