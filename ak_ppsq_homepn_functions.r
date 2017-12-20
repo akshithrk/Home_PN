@@ -246,7 +246,7 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   this.dat3 <- hosp.dat[hosp.dat$mrn==targetmrn,]
   this.dat4 <- blood.dat[blood.dat$mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
   firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
-  firstdate <- min(this.dat1$datein,na.rm=T)
+  # firstdate <- min(this.dat1$datein,na.rm=T)
   ndays <- today - firstdate + 1
   if (ndays < 1) return(rep(0,5))
   firstdayhome <- NA

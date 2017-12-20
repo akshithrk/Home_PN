@@ -103,7 +103,7 @@ write.table(restab,"ppsq-homepn-clreport-validation.csv",col.names=T,row.names=F
 #####
 
 prepdata(alclocklist,mdy.date(10,1,2014),mdy.date(9,30,2018))
-restab <- calcdemog(mdy.date(3,1,2018),tabprint=T)
+restab <- calcdemog(mdy.date(3,1,2015),tabprint=T)
 
 #####
 # Control charts
