@@ -135,8 +135,11 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   # growth.dat <- alldata[alldata$redcap_repeat_instrument=="growth_data",c(1:3,(nutrix+1):growthix)]
   # liver.dat <- alldata[alldata$redcap_repeat_instrument=="liver_disease",c(1:3,(growthix+1):liverix)]
   # outpt.dat <- alldata[alldata$redcap_repeat_instrument=="outpatient_encounters",c(1:3,(liverix+1):outptix)]
-  
-  demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="NA",]
+  # rm(demog.dat)
+
+  # demog.dat <- all.dat[all.dat$redcap_repeat_instrument == is.na(all.dat$redcap_repeat_instrument),]
+  # ?subset
+  demog.dat <- subset(all.dat, is.na(redcap_repeat_instrument))
   active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_on_service",]
   cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="central_line",]
   hosp.dat <- all.dat[all.dat$redcap_repeat_instrument=="inpatient_encounters",]

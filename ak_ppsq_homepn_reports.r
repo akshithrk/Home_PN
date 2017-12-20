@@ -7,7 +7,7 @@ source("P:/R/Home_PN/Home_PN/ak_ppsq_homepn_functions.r")
 
 ###
 #updated date
-today <- as.integer(mdy.date(12,31,2015))
+today <- as.integer(mdy.date(12,31,2017))
 readdata()
 mrnlist <- unique(all.dat$mrn)
 # mrnlist
@@ -55,10 +55,10 @@ lowrisk2 <- c(352225,353847,1098632,1232971,2077612,2152049,2154352,2248746,2273
 #####
 
 prepdata(mrnlist)
-prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2015))
-prepdata(highrisk2,mdy.date(3,1,2015),mdy.date(12,31,2015))
-prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2015))
-prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2015))
+prepdata(highrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
+prepdata(highrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
+prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
+prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 5
