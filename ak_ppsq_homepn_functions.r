@@ -432,9 +432,9 @@ calcdash <- function(m1=0,m2=today)
 #####
 # Demographic table
 #####
-m1=0
-m2=today
-freezedate=today
+# m1=0
+# m2=today
+# freezedate=today
 
 calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
 {

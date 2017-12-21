@@ -80,8 +80,8 @@ for (i in 1:nyears) for (j in 1:12)
     if (j==12) m2 <- mdy.date(12,31,clyr) else m2 <- mdy.date(j+1,1,clyr)-1
     clreport[index,] <- c(clmo,clyr,calcdash(m1,m2))
 }
-# is.atomic(clreport) FALSE
-# is.recursive(clreport) TRUE
+# is.atomic(clreport)
+# is.recursive(clreport)
 
 clreport <- data.frame(clreport)
 names(clreport) <- c("month","year","cldays","cldaysnew","clabsi","clabsinew","clabsirate","npats","unplanhosp","los.median","percout","newhpn","death","transfer","weanoff","outptenc","remclabsi","medbmi")
@@ -120,6 +120,8 @@ restab <- calcdemog(mdy.date(3,1,2015),tabprint=T)
 pdf("ppsq-homepn-controlcharttest-nearfinal.pdf",width=10.5,height=8)
 
 # PAGE 1 -- CLABSI rate
+
+clreport$clabsirate
 
 x <- clreport$clabsirate
 x1 <- clreport$clabsirate[1:25]
