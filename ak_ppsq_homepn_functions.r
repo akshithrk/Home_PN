@@ -407,15 +407,16 @@ calcdash <- function(m1=0,m2=today)
   # tempcalc['cldays']
   # is.atomic(clnow)
 
+  # suppressWarnings(firstdate)
   for (k in 1:length(demog.dat$mrn))
   {
     tempcalc <- countcldays(demog.dat$mrn[k],m1,m2)
-    clnow <- clnow + tempcalc$cldays
-    clnownew <- clnownew + tempcalc$cldaysnew
-    clabsi <- clabsi + tempcalc$clabsi
-    clabsinew <- clabsinew + tempcalc$clabsinew
-    newhpn <- newhpn + as.numeric(tempcalc$cldaysnew > 0)
-    readmitnew <- readmitnew + tempcalc$readmitnew
+    clnow <- clnow + tempcalc['cldays']
+    clnownew <- clnownew + tempcalc['cldaysnew']
+    clabsi <- clabsi + tempcalc['clabsi']
+    clabsinew <- clabsinew + tempcalc['clabsinew']
+    newhpn <- newhpn + as.numeric(tempcalc['cldaysnew'] > 0)
+    readmitnew <- readmitnew + tempcalc['readmitnew']
   }
   npatients <- length(unique(active.dat$mrn[nowactive]))
   clabsirate <- round(1000*clabsi/clnow,1)
@@ -434,7 +435,9 @@ calcdash <- function(m1=0,m2=today)
   # 16. Direct bilirubin >= 2 #/% (patient level not number of labs -- use maximum lab reading from month)
   
   
-  return (c(clnow,clnownew,clabsi,clabsinew,clabsirate,npatients,unplanhosp,los.median,percout,newhpn,death,transfer,weanoff,outptenc,remclabsi,medbmi))
+  # return (c(clnow,clnownew,clabsi,clabsinew,clabsirate,npatients,unplanhosp,los.median,percout,newhpn,death,transfer,weanoff,outptenc,remclabsi,medbmi))
+  return  (t(c(clnow,clnownew,clabsi,clabsinew,clabsirate,npatients,unplanhosp,los.median,percout,newhpn,death,transfer,weanoff,outptenc,remclabsi,medbmi)))
+  
 }
 
 #####
