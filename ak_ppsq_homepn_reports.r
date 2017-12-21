@@ -67,7 +67,7 @@ prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 
 # m1 = 0
 # m2 = today
-# calcdash(m1, m2)
+calcdash(m1, m2)
 # clreport[index,]
 
 # nyears <- 5 ak: incresing this to 8 to include current date
@@ -94,7 +94,7 @@ clreport <- data.frame(clreport)
 names(clreport) <- c("month","year","cldays","cldaysnew","clabsi","clabsinew","clabsirate","npats","unplanhosp","los.median","percout","newhpn","death","transfer","weanoff","outptenc","remclabsi","medbmi")
 clreport <- clreport[order(clreport$year,clreport$month),]
 #2015 to 2018
-clreport <- clreport[-which(clreport$year>2018),]
+clreport <- clreport[-which(clreport$year>2015),]
 clreport <- data.frame(obs=(1:length(clreport$month)),clreport)
 write.table(clreport,"ppsq-homepn-clreport-monthly.csv",col.names=T,row.names=F,sep=",")
 
@@ -131,7 +131,6 @@ pdf("ppsq-homepn-controlcharttest-nearfinal.pdf",width=10.5,height=8)
 
 
 x <- clreport$clabsirate
-x
 x1 <- clreport$clabsirate[1:25]
 x2 <- clreport$clabsirate[26:length(x)]
 x3 <- clreport$clabsinew/clreport$cldaysnew
@@ -148,7 +147,7 @@ uplim2 <- exp(bl2+1.645*blsd2)
 outlier2 <- (x2 > uplim2)
 
 par(xaxt="n")
-plot(x,type="n",lwd=3,main="Community acquired CLABSI rate per 1000 line days ",xlab="Calendar year",ylab="Rate",ylim=c(0,1.15*max(uplim1,uplim2,na.rm=T)),frame=T)
+plot(x, type="n", lwd=3, main="Community acquired CLABSI rate per 1000 line days ", xlab="Calendar year", ylab="Rate", ylim=c(0,1.15*max(uplim1,uplim2,na.rm=T)), frame=T)
 for (i in 1:10) lines(c(24.5 + i/10,24.5 + i/10),c(0,1.15*max(uplim1,uplim2)),lwd=3,col="grey")
 lines(x,lwd=3)
 #lines(x3,lwd=2,lty=4)
@@ -166,7 +165,8 @@ points(seq(length(x1)+1,length(x1)+length(x2))[outlier2],x2[outlier2],pch=19,cex
 
 # PAGE 2 -- Unplanned hospitalization rate
 
-x <- 1000*clreport$unplanhosp/clreport$cldays
+# NO cldays
+# x <- 1000*clreport$unplanhosp/clreport$cldays
 bl <- mean(log(replace(x,x==0 | is.na(x),NA)),na.rm=T)
 blsd <- sd(log(replace(x,x==0,NA)),na.rm=T)
 uplim <- exp(bl+1.645*blsd)
@@ -203,13 +203,17 @@ dev.off()
 # Figures for annual QMP
 ###
 
-outpt.figs <- matrix(NA,4,3)
-nsub.figs <- rep(NA,4)
-newhpn.figs <- rep(NA,4)
-hosp.figs <- rep(NA,4)
+# outpt.figs <- matrix(NA,4,3)
+# nsub.figs <- rep(NA,4)
+# newhpn.figs <- rep(NA,4)
+# hosp.figs <- rep(NA,4)
+outpt.figs <- matrix(NA,7,3)
+nsub.figs <- rep(NA,7)
+newhpn.figs <- rep(NA,7)
+hosp.figs <- rep(NA,7)
 
 # for (i in 1:4) ak: changing this so that it reflects 2018
-for (i in 1:8)
+for (i in 1:7)
 {
     targetyear <- 2011 + i
     m1 <- as.integer(mdy.date(1,1,targetyear))
@@ -231,12 +235,12 @@ for (i in 1:8)
 
     ### Unique patients by year
 
-    if (length(thisactive$datein)>0) nsub.figs[i] <- length(unique(thisactive$active_mrn))
+    if (length(thisactive$datein)>0) nsub.figs[i] <- length(unique(thisactive$mrn))
     #if (i==5) nsub.figs[5] <- (12/7)*nsub.figs[5]
 
     ### New starts by year
 
-    if (length(thisactive1$datein)>0) newhpn.figs[i] <- length(unique(thisactive1$active_mrn[thisactive1$st_start==1]))
+    if (length(thisactive1$datein)>0) newhpn.figs[i] <- length(unique(thisactive1$mrn[thisactive1$st_start==1]))
     if (i==4) newhpn.figs[4] <- (12/7)*newhpn.figs[4]
 
     ### Hospital discharges at BCH by year
@@ -255,7 +259,7 @@ pdf("ppsq-homepn-annualfigs.pdf",width=10.5,height=8)
 plot(2012:2018,outpt.figs[,3],type="l",main="Home PN outpatient visits by location",ylab="Total patient visits",xlab="Year",ylim=c(0,1300),lwd=2)
 lines(2012:2018,outpt.figs[,1],lwd=2,lty=2)
 lines(2012:2018,outpt.figs[,2],lwd=2,lty=3)
-legend("bottomleft",legend=c("All","HPN","SBS"),lty=c(1,2,3),lwd=c(2,2,2))
+legend("topright",legend=c("All","HPN","SBS"),lty=c(1,2,3),lwd=c(2,2,2))
 
 plot(2012:2018,nsub.figs,type="l",main="Home PN unique patients on active service",ylab="Total patients",xlab="Year",lwd=2)
 plot(2012:2018,newhpn.figs,type="l",main="New start Home PN unique patients enrolled",ylab="Total patients",xlab="Year",lwd=2)
@@ -273,11 +277,11 @@ nsub <- length(demog.dat$mrn)
 clflag <- rep(NA,nsub)
 for (i in 1:nsub)
 {
-    this.dat <- cl.dat[cl.dat$cvc_mrn==demog.dat$mrn[i],]
+    this.dat <- cl.dat[cl.dat$mrn==demog.dat$mrn[i],]
     clflag[i] <- as.numeric(sum(this.dat$remove_date=="",na.rm=T)-sum(this.dat$insert_date=="",na.rm=T) > 1)
 }
-cldouble <- cl.dat[cl.dat$cvc_mrn %in% demog.dat$mrn[clflag==1],]
-cldouble <- cldouble[order(cldouble$cvc_mrn,cldouble$datein),c(4,5,12)]
+cldouble <- cl.dat[cl.dat$mrn %in% demog.dat$mrn[clflag==1],]
+cldouble <- cldouble[order(cldouble$mrn,cldouble$datein),c(4,5,12)]
 write.csv(cldouble,"ppsq-homepn-multclreport.csv",row.names=F)
 
 ####################
@@ -286,7 +290,7 @@ write.csv(cldouble,"ppsq-homepn-multclreport.csv",row.names=F)
 cldup <- cl.dat[NULL,]
 for (i in 1:length(demog.dat$mrn))
 {
-    this.dat <- cl.dat[cl.dat$cvc_mrn==demog.dat$mrn[i],]
+    this.dat <- cl.dat[cl.dat$mrn==demog.dat$mrn[i],]
     if (length(this.dat$insert_date) > length(unique(this.dat$insert_date))) cldup <- rbind(cldup,this.dat[duplicated(this.dat$insert_date) | duplicated(this.dat$insert_date,fromLast=T),])
 }
 print(cldup)
@@ -299,8 +303,8 @@ templist <- cl.dat[NULL,]
 for (i in 1:length(demog.dat$mrn))
 {
     thismrn <- demog.dat$mrn[i]
-    this.dat <- cl.dat[cl.dat$cvc_mrn==thismrn,]
-    numcl <- length(this.dat$cvc_mrn)
+    this.dat <- cl.dat[cl.dat$mrn==thismrn,]
+    numcl <- length(this.dat$mrn)
     if (numcl==0) next
     firstdate <- min(this.dat$datein)
     ndays <- today - firstdate + 1
@@ -317,7 +321,7 @@ for (i in 1:length(demog.dat$mrn))
     templist <- rbind(templist,templist2)
 }
 templist <- templist[,c(4:5,9,11:14,29)]
-write.csv(templist[order(templist$cvc_mrn,templist$insert_date),],"ppsq-homepn-cloverlap.csv",row.names=F)
+write.csv(templist[order(templist$mrn,templist$insert_date),],"ppsq-homepn-cloverlap.csv",row.names=F)
 
 ###########
 
