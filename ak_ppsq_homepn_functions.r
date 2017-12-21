@@ -294,6 +294,12 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   datemask <- rep(0,ndays)
   bloodinf <- rep(0,ndays)
   
+  rep(1,this.dat1$dateout[1]-this.dat1$datein[1]+1)
+  ?rep
+  this.dat1$dateout[1]
+  this.dat1$datein[1]+1
+  this.dat1$dateout[1]-this.dat1$datein[1]+1
+  rep(1, NA)
   # replaced cvc_mrn, inpt_mrn, bld_mrn from the following to just mrm to reflect new redcap
   if (length(this.dat1$mrn)>0)
     
@@ -394,9 +400,9 @@ calcdash <- function(m1=0,m2=today)
 #####
 # Demographic table
 #####
-m1=0
-m2=today
-freezedate=today
+# m1=0
+# m2=today
+# freezedate=today
 
 calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
 {
