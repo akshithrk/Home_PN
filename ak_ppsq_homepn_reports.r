@@ -71,6 +71,7 @@ prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 # clreport[index,]
 
 # nyears <- 5 ak: incresing this to 8 to include current date
+# rm(clreport)
 nyears <- 5
 clreport <- matrix(NA,12*nyears,18)
 for (i in 1:nyears) for (j in 1:12)
@@ -84,8 +85,10 @@ for (i in 1:nyears) for (j in 1:12)
       m2 <- mdy.date(j+1,1,clyr)-1
     clreport[index,] <- c(clmo,clyr,calcdash(m1,m2))
 }
+# c(clmo, clyr, calcdash(m1,m2))
 # is.atomic(clreport)
 # is.recursive(clreport)
+# length(clreport$month)
 
 clreport <- data.frame(clreport)
 names(clreport) <- c("month","year","cldays","cldaysnew","clabsi","clabsinew","clabsirate","npats","unplanhosp","los.median","percout","newhpn","death","transfer","weanoff","outptenc","remclabsi","medbmi")
@@ -125,9 +128,10 @@ pdf("ppsq-homepn-controlcharttest-nearfinal.pdf",width=10.5,height=8)
 
 # PAGE 1 -- CLABSI rate
 
-clreport$clabsirate
+
 
 x <- clreport$clabsirate
+x
 x1 <- clreport$clabsirate[1:25]
 x2 <- clreport$clabsirate[26:length(x)]
 x3 <- clreport$clabsinew/clreport$cldaysnew

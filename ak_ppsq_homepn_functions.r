@@ -405,17 +405,17 @@ calcdash <- function(m1=0,m2=today)
   # is.atomic(demog.dat$mrn)
   # is.atomic(demog.dat$mrn)
   # tempcalc['cldays']
-  
-  
+  # is.atomic(clnow)
+
   for (k in 1:length(demog.dat$mrn))
   {
     tempcalc <- countcldays(demog.dat$mrn[k],m1,m2)
-    clnow <- clnow + tempcalc['cldays']
-    clnownew <- clnownew + tempcalc['cldaysnew']
-    clabsi <- clabsi + tempcalc['clabsi']
-    clabsinew <- clabsinew + tempcalc['clabsinew']
-    newhpn <- newhpn + as.numeric(tempcalc['cldaysnew'] > 0)
-    readmitnew <- readmitnew + tempcalc['readmitnew']
+    clnow <- clnow + tempcalc$cldays
+    clnownew <- clnownew + tempcalc$cldaysnew
+    clabsi <- clabsi + tempcalc$clabsi
+    clabsinew <- clabsinew + tempcalc$clabsinew
+    newhpn <- newhpn + as.numeric(tempcalc$cldaysnew > 0)
+    readmitnew <- readmitnew + tempcalc$readmitnew
   }
   npatients <- length(unique(active.dat$mrn[nowactive]))
   clabsirate <- round(1000*clabsi/clnow,1)
