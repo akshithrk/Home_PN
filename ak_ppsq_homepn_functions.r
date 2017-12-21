@@ -432,9 +432,9 @@ calcdash <- function(m1=0,m2=today)
 #####
 # Demographic table
 #####
-# m1=0
-# m2=today
-# freezedate=today
+m1=0
+m2=today
+freezedate=today
 
 calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
 {
@@ -447,19 +447,50 @@ calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
   
   firstdate <- rep(NA,nsub)
   stateres <- rep(NA,nsub)
-  for (i in 1:nsub) if (!(demog.dat$mrn[i] %in% activelist)) firstdate[i] <- NA else firstdate[i] <- min(active.dat$datein[active.dat$mrn==demog.dat$mrn[i]],na.rm=T)
-  for (i in 1:nsub) if (!(demog.dat$mrn[i] %in% activelist)) stateres[i] <- NA else stateres[i] <- active.dat$state_res[active.dat$mrn==demog.dat$mrn[i] & active.dat$datein==firstdate[i]] =="MA"
+  for (i in 1:nsub) 
+    if (!(demog.dat$mrn[i] %in% activelist)) 
+      firstdate[i] <- NA  else firstdate[i] <- min(active.dat$datein[active.dat$mrn==demog.dat$mrn[i]],na.rm=T)
+  
+  for (i in 1:nsub) 
+    if (!(demog.dat$mrn[i] %in% activelist)) 
+      stateres[i] <- NA else 
+      stateres[i] <- active.dat$state_res[active.dat$mrn==demog.dat$mrn[i] & active.dat$datein==firstdate[i]] =="MA"
   
   hpntime <- round((freezedate - firstdate)/365,1)
   hpntimemed <- univar(hpntime)$median
   hpntimeiqr <- univar(hpntime)$iqr
   
+  # is.factor(demog.dat$gender_male)
+  # is.factor(demog.dat$mrn) T
+  # is.factor(active.dat$mrn) T
+  
+  if(is.factor(demog.dat$gender_male))
+    demog.dat$gender_male <- as.numeric(as.character( demog.dat$gender_male ))
+  
+  if(is.factor(demog.dat$demog.dat$mrn))
+    demog.dat$mrn <- as.numeric(as.character( demog.dat$mrn ))
+  
+  if(is.factor(active.dat$mrn))
+    active.dat$mrn <- as.numeric(as.character( active.dat$mrn ))
+  
   nmale <- sum(demog.dat$gender_male[demog.dat$mrn[i] %in% active.dat$mrn],na.rm=T)
   nstateres <- sum(stateres,na.rm=T)
   
+  if(is.factor(demog.dat$diag_sbs))
+    demog.dat$diag_sbs <- as.numeric(as.character( demog.dat$diag_sbs ))
+  
   nsbs <- sum(demog.dat$diag_sbs[demog.dat$mrn[i] %in% activelist],na.rm=T)
+  
+  if(is.factor(demog.dat$diag_enterop))
+    demog.dat$diag_enterop <- as.numeric(as.character( demog.dat$diag_enterop ))
   nenterop <- sum(demog.dat$diag_enterop[demog.dat$mrn[i] %in% activelist],na.rm=T)
+  
+  if(is.factor(demog.dat$diag_motility))
+    demog.dat$diag_motility <- as.numeric(as.character( demog.dat$diag_motility ))
   nmotil <- sum(demog.dat$diag_motility[demog.dat$mrn[i] %in% activelist],na.rm=T)
+  
+  if(is.factor(demog.dat$diag_pn))
+    demog.dat$diag_pn <- as.numeric(as.character( demog.dat$diag_pn ))
   nmisc <- sum(demog.dat$diag_pn[demog.dat$mrn[i] %in% activelist],na.rm=T)
   
   # replacing the cvc_mrn to mrn below because cl.dat is the active.data with the respective column contains cl related words
