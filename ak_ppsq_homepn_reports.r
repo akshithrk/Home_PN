@@ -61,10 +61,12 @@ prepdata(highrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
 prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 
-# countcldays(0100701, m1, m2)
+# mask1 = 0
+# mask2 = today
+# countcldays(0100701, mask1, mask2)
+
 # m1 = 0
 # m2 = today
-
 # calcdash(m1, m2)
 # clreport[index,]
 
@@ -77,7 +79,9 @@ for (i in 1:nyears) for (j in 1:12)
     clyr <- as.integer(format(Sys.Date(),"%Y")) - i + 1
     clmo <- j
     m1 <- mdy.date(j,1,clyr)
-    if (j==12) m2 <- mdy.date(12,31,clyr) else m2 <- mdy.date(j+1,1,clyr)-1
+    if (j==12) 
+      m2 <- mdy.date(12,31,clyr) else 
+      m2 <- mdy.date(j+1,1,clyr)-1
     clreport[index,] <- c(clmo,clyr,calcdash(m1,m2))
 }
 # is.atomic(clreport)
