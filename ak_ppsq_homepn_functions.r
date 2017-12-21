@@ -300,6 +300,7 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   this.dat1$datein[1]+1
   this.dat1$dateout[1]-this.dat1$datein[1]+1
   rep(1, NA)
+  
   # replaced cvc_mrn, inpt_mrn, bld_mrn from the following to just mrm to reflect new redcap
   if (length(this.dat1$mrn)>0)
     
