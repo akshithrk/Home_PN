@@ -65,12 +65,12 @@ prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 # m1 = 0
 # m2 = today
 
-calcdash(m1, m2)
-clreport[index,]
+# calcdash(m1, m2)
+# clreport[index,]
 
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 5
-clreport <- matrix(NA,12*nyears,17)
+clreport <- matrix(NA,12*nyears,18)
 for (i in 1:nyears) for (j in 1:12)
 {
     index <- (12*(i-1)+j)
