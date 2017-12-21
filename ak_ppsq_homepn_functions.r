@@ -377,8 +377,8 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
 # 16. Direct bilirubin >= 2 #/%
 #####
 
-# m1=0
-# m2 = today
+m1=0
+m2 = today
 
 calcdash <- function(m1=0,m2=today)
 {
@@ -398,16 +398,24 @@ calcdash <- function(m1=0,m2=today)
   # length(demog.dat$mrn) 78
   # demog.dat$mrn[2]
   # countcldays(demog.dat$mrn[1],m1,m2)
+  # is.atomic(demog.dat$mrn)
+  # is.atomic(tempcalc$cldays)
+  # is.atomic(demog.dat$mrn)
+  # is.atomic(demog.dat$mrn)
+  # is.atomic(demog.dat$mrn)
+  # is.atomic(demog.dat$mrn)
+  # tempcalc['cldays']
+  
   
   for (k in 1:length(demog.dat$mrn))
   {
     tempcalc <- countcldays(demog.dat$mrn[k],m1,m2)
-    clnow <- clnow + tempcalc$cldays
-    clnownew <- clnownew + tempcalc$cldaysnew
-    clabsi <- clabsi + tempcalc$clabsi
-    clabsinew <- clabsinew + tempcalc$clabsinew
-    newhpn <- newhpn + as.numeric(tempcalc$cldaysnew > 0)
-    readmitnew <- readmitnew + tempcalc$readmitnew
+    clnow <- clnow + tempcalc['cldays']
+    clnownew <- clnownew + tempcalc['cldaysnew']
+    clabsi <- clabsi + tempcalc['clabsi']
+    clabsinew <- clabsinew + tempcalc['clabsinew']
+    newhpn <- newhpn + as.numeric(tempcalc['cldaysnew'] > 0)
+    readmitnew <- readmitnew + tempcalc['readmitnew']
   }
   npatients <- length(unique(active.dat$mrn[nowactive]))
   clabsirate <- round(1000*clabsi/clnow,1)
