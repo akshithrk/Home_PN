@@ -65,7 +65,7 @@ prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 # m1 = 0
 # m2 = today
 
-calcdash(m1, m2)
+# calcdash(m1, m2)
 
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 5

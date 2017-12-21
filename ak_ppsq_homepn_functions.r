@@ -394,6 +394,9 @@ calcdash <- function(m1=0,m2=today)
 #####
 # Demographic table
 #####
+m1=0
+m2=today
+freezedate=today
 
 calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
 {
@@ -450,7 +453,7 @@ calcdemog <- function(m1=0,m2=today,freezedate=today,tabprint=FALSE)
     )
   }
   
-  return(list(nsub=nsub,nmale=nmale,nstateres=nstateres,
+  return (list(nsub=nsub,nmale=nmale,nstateres=nstateres,
               agemed=agemed,ageiqr=ageiqr,hpntimemed=hpntimemed,hpntimeiqr=hpntimeiqr,
               nsbs=nsbs,nenterop=nenterop,nmotil=nmotil,nmisc=nmisc,
               ncl=ncl,nbrov=nbrov,npicc=npicc,nportcath=nportcath))
