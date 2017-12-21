@@ -377,8 +377,8 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
 # 16. Direct bilirubin >= 2 #/%
 #####
 
-m1=0
-m2 = today
+# m1=0
+# m2 = today
 
 calcdash <- function(m1=0,m2=today)
 {
