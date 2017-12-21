@@ -245,25 +245,46 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 
 countcldays <- function(targetmrn,mask1=0,mask2=today)
 {
-  # this.dat1 <- active.dat[active.dat$mrn==mrnlist,]
-  # this.dat2 <- cl.dat[cl.dat$mrn==targetmrn,]
-  # this.dat3 <- hosp.dat[hosp.dat$mrn==targetmrn,]
-  # this.dat4 <- blood.dat[blood.dat$mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
-  # firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
-
-  this.dat1 <- active.dat[active.dat$mrn==mrnlist,]
-  this.dat2 <- cl.dat[cl.dat$mrn==mrnlist,]
-  this.dat3 <- hosp.dat[hosp.dat$mrn==mrnlist,]
-  this.dat4 <- blood.dat[blood.dat$mrn==mrnlist & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
-  firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+  # this.dat1 <- all.dat[all.dat$mrn==targetmrn,]
   
+  this.dat1 <- active.dat[active.dat$mrn==targetmrn,]
+  this.dat2 <- cl.dat[cl.dat$mrn==targetmrn,]
+  this.dat3 <- hosp.dat[hosp.dat$mrn==targetmrn,]
+  this.dat4 <- blood.dat[blood.dat$mrn==targetmrn & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+  firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+
+  # this.dat1 <- active.dat[active.dat$mrn==mrnlist,]
+  # this.dat2 <- cl.dat[cl.dat$mrn==mrnlist,]
+  # this.dat3 <- hosp.dat[hosp.dat$mrn==mrnlist,]
+  # this.dat4 <- blood.dat[blood.dat$mrn==mrnlist & blood.dat$bcx_site==1 & blood.dat$clabsi_commun==1,]
+  # firstdate <- min(this.dat1$datein,this.dat2$datein,this.dat3$datein,this.dat4$datein,na.rm=T)
+  
+  # length(this.dat1$mrn) 79
   ndays <- today - firstdate + 1
+  # ndays
+  
   if (ndays < 1) return(rep(0,5))
   firstdayhome <- NA
+  
+  # ?which
+  # this.dat1[which(this.dat1$st_start == 1)]
+  # 
+  # this.dat1$st_start
+  # this.dat1$st_start[1:100] == 1
+  
   if (length(this.dat1$mrn)>0) 
     for (i in 1:length(this.dat1$mrn)) 
-      if (this.dat1$st_start[i]==1) 
+      if (is.na(this.dat1$st_start[i])) {
+        firstdayhome <- NA
+      } else {
         firstdayhome <- this.dat1$datein[i]
+      }
+
+      # if (this.dat1$st_start[i]==1) {
+      #   firstdayhome <- this.dat1$datein[i]
+      # } else {
+      #   firstdayhome <- NA
+      # }
   
   isactive <- rep(0,ndays)
   newhpn <- rep(0,ndays)
@@ -274,7 +295,10 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   bloodinf <- rep(0,ndays)
   
   # replaced cvc_mrn, inpt_mrn, bld_mrn from the following to just mrm to reflect new redcap
-  if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
+  if (length(this.dat1$mrn)>0)
+    
+    for (i in 1:length(this.dat1$mrn)) 
+      isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
   if (length(this.dat1$mrn)>0) for (i in 1:length(this.dat1$mrn)) for (j in 1:ndays) if (is.na(firstdayhome)) next else newhpn[j] <- as.numeric(((today-j+1) - firstdayhome) <= 30 & ((today-j+1) - firstdayhome) >= 0)
   if (length(this.dat2$mrn)>0) for (i in 1:length(this.dat2$mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
   if (length(this.dat3$mrn)>0) for (i in 1:length(this.dat3$mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
@@ -334,6 +358,10 @@ calcdash <- function(m1=0,m2=today)
   newhpn <- 0
   readmitnew <- 0
   
+  # length(demog.dat$mrn) 78
+  # demog.dat$mrn[2]
+  # countcldays(demog.dat$mrn[1],m1,m2)
+  
   for (k in 1:length(demog.dat$mrn))
   {
     tempcalc <- countcldays(demog.dat$mrn[k],m1,m2)
@@ -360,7 +388,7 @@ calcdash <- function(m1=0,m2=today)
   if (sum(nowgrowth,na.rm=T)==0) medbmi <- NA else medbmi <- median(growth.dat$bmiperc[nowgrowth],na.rm=T)
   # 16. Direct bilirubin >= 2 #/% (patient level not number of labs -- use maximum lab reading from month)
   
-  return(c(clnow,clnownew,clabsi,clabsinew,clabsirate,npatients,unplanhosp,los.median,percout,newhpn,death,transfer,weanoff,outptenc,remclabsi,medbmi))
+  return (c(clnow,clnownew,clabsi,clabsinew,clabsirate,npatients,unplanhosp,los.median,percout,newhpn,death,transfer,weanoff,outptenc,remclabsi,medbmi))
 }
 
 #####

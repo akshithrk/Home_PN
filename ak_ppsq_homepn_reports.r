@@ -62,8 +62,10 @@ prepdata(lowrisk1,mdy.date(5,1,2014),mdy.date(2,28,2018))
 prepdata(lowrisk2,mdy.date(3,1,2015),mdy.date(12,31,2018))
 
 # countcldays(0100701)
-calcdash(m1, m2)
+# m1 = 0
+# m2 = today
 
+calcdash(m1, m2)
 
 # nyears <- 5 ak: incresing this to 8 to include current date
 nyears <- 5
