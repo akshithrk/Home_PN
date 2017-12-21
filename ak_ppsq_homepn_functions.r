@@ -13,7 +13,7 @@ source("P:/R/Home_PN/Home_PN/ak_bmi_z.r")
 # error because when as.integet is used the output of the sys.date starts with quotes which is being read as a char
 
 # today <- as.integer(mdy.date(3,1,2015))
-today <- as.integer(mdy.date(12,20,2017))
+today <- as.integer(mdy.date(12,31,2017))
 
 
 
@@ -192,20 +192,27 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: dob, 6: gender_male
   
   # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null
-  # merge <- demog.dat[,c(1, 4,7)]
+  # merge <- 
+  # demog.dat[c(1, 4,7)]
   # demog[,c(1,2,3)]
   # demog$dob
 
-  growth.dat <- merge(growth.dat,demog.dat[,c(1,4,7)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
+
   # BMI calc missing because, demog data is missing and need to figure out how to join growth and demg data
   # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T,all.y=F,by.x="mrn",by.y="mrn")
   # growth.dat <- merge(growth.dat,demog[,c(1,2,3)],all.x=T, all.y = F, by.x="mrn", by.y = 'mrn')
+  growth.dat <- merge(growth.dat, demog.dat[,c(1,4,7)], all.x=TRUE, all.y = F, by.x='mrn', by.y = 'mrn')
   
   # # ingnoring the below as dob data from demogs is null
   growth.dat$ageyrs <- round((growth.dat$datein - as.integer(split.date(growth.dat$dob.y,char="-", ymd=T))+1)/365,1)
+  
+  # length(growth.dat$bmi)
+  # growth.dat$gender_male.x
+  
   if (length(growth.dat$bmi)!=0)
   {
-      for (i in 1:length(growth.dat$bmi)) growth.dat$bmiz[i] <- bmiz(growth.dat$bmi[i],growth.dat$ageyrs[i],1-growth.dat$gender_male[i])
+      for (i in 1:length(growth.dat$bmi)) 
+        growth.dat$bmiz[i] <- bmiz(growth.dat$bmi[i],growth.dat$ageyrs[i],1-growth.dat$gender_male.x[i])
       growth.dat$bmiperc <- 100*round(pnorm(growth.dat$bmiz),3)
   }
   
@@ -227,7 +234,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   # growth.dat <<- growth.dat[nowgrowth,]
   # nutr.dat <<- nutr.dat[nownutr,]
   
-  return(cat("Demographic records:        ",length(demog.dat$mrn),"\n","Active service records:    ",length(active.dat$mrn),"\n",
+  return (cat("Demographic records:        ",length(demog.dat$mrn),"\n","Active service records:    ",length(active.dat$mrn),"\n",
              "Central line records:      ",length(cl.dat$mrn),"\n","Blood infection records:   ",length(blood.dat$mrn),"\n",
              "Hospitalization records:   ",length(hosp.dat$mrn),"\n","Outpatient records:        ",length(outpt.dat$mrn),"\n",
              "Growth records:            ",length(growth.dat$mrn),"\n","Nutrition records:         ",length(nutr.dat$mrn),"\n"))
@@ -294,18 +301,19 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
   datemask <- rep(0,ndays)
   bloodinf <- rep(0,ndays)
   
-  rep(1,this.dat1$dateout[1]-this.dat1$datein[1]+1)
-  ?rep
-  this.dat1$dateout[1]
-  this.dat1$datein[1]+1
-  this.dat1$dateout[1]-this.dat1$datein[1]+1
-  rep(1, NA)
+  # rep(1,this.dat1$dateout[1]-this.dat1$datein[1]+1)
+  # ?rep
+  # this.dat1$dateout[1]
+  # this.dat1$datein[1]+1
+  # this.dat1$dateout[1]-this.dat1$datein[1]+1
+  # rep(1, NA)
   
   # replaced cvc_mrn, inpt_mrn, bld_mrn from the following to just mrm to reflect new redcap
   if (length(this.dat1$mrn)>0)
     
     for (i in 1:length(this.dat1$mrn)) 
-      isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
+      if (is.na(this.dat1$dateout[i]-this.dat1$datein[i]+1)) next
+      else isactive[(today-this.dat1$dateout[i]+1):(today-this.dat1$datein[i]+1)] <- rep(1,this.dat1$dateout[i]-this.dat1$datein[i]+1)
   
   if (length(this.dat1$mrn)>0) 
     for (i in 1:length(this.dat1$mrn)) for (j in 1:ndays) 
@@ -313,10 +321,20 @@ countcldays <- function(targetmrn,mask1=0,mask2=today)
       else newhpn[j] <- as.numeric(((today-j+1) - firstdayhome) <= 30 & ((today-j+1) - firstdayhome) >= 0)
   
   if (length(this.dat2$mrn)>0) 
-    for (i in 1:length(this.dat2$mrn)) centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
+    for (i in 1:length(this.dat2$mrn))
+      centline[(today-this.dat2$dateout[i]+1):(today-this.dat2$datein[i]+1)] <- rep(1,this.dat2$dateout[i]-this.dat2$datein[i]+1)
   
-  if (length(this.dat3$mrn)>0) 
-    for (i in 1:length(this.dat3$mrn)) nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
+  # this.dat3$dateout[1]
+  # this.dat3$datein[1]
+  # this.dat3$datein[1]+1
+  # this.dat3$dateout[1]-this.dat3$datein[1]+1
+  # rep(0,NA)
+  # is.na(this.dat3$dateout[i]-this.dat3$datein[i]+1)
+  
+  # if (length(this.dat3$mrn)>0) 
+  #   for (i in 1:length(this.dat3$mrn))
+  #     if (is.na(this.dat3$dateout[i]-this.dat3$datein[i]+1)) next
+  #     nothosp[(today-this.dat3$dateout[i]+1):(today-this.dat3$datein[i]+1)] <- rep(0,this.dat3$dateout[i]-this.dat3$datein[i]+1)
   
   if (length(this.dat3$mrn)>0) 
     for (i in 1:length(this.dat3$mrn)) admit[(today-this.dat3$datein[i]+1)] <- 1
@@ -406,6 +424,7 @@ calcdash <- function(m1=0,m2=today)
   remclabsi <- sum((cl.dat$remove[nowcl]==1) & (cl.dat$remove_type___clabsi[nowcl]==1) & (cl.dat$dateout[nowcl] >= m1) & cl.dat$dateout[nowcl] <= m2,na.rm=T)
   if (sum(nowgrowth,na.rm=T)==0) medbmi <- NA else medbmi <- median(growth.dat$bmiperc[nowgrowth],na.rm=T)
   # 16. Direct bilirubin >= 2 #/% (patient level not number of labs -- use maximum lab reading from month)
+  
   
   return (c(clnow,clnownew,clabsi,clabsinew,clabsirate,npatients,unplanhosp,los.median,percout,newhpn,death,transfer,weanoff,outptenc,remclabsi,medbmi))
 }
