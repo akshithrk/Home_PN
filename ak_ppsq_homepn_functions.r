@@ -190,7 +190,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
   
   # str(demog.dat)
-  demog.dat[,c(2,3,6)]
+  # demog.dat[,c(2,3,6)]
   # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: dob, 6: gender_male
   
   # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null
