@@ -46,7 +46,8 @@ readdata <- function(fname="NEWHomePNDatabaseALL_DATA_2017-12-19_1603.csv")
 {
   read.csv
   # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
-  # all.dat <- read.csv(fname)[,-1]
+
+  all.dat <- read.csv(fname)[,-1]
   all.dat <- read.csv(fname)
   # all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
   # all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
