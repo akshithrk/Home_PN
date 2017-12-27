@@ -46,7 +46,8 @@ readdata <- function(fname="NEWHomePNDatabaseALL_DATA_2017-12-19_1603.csv")
 {
   read.csv
   # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
-  all.dat <- read.csv(fname)[,-1]
+  # all.dat <- read.csv(fname)[,-1]
+  all.dat <- read.csv(fname)
   # all.dat <- read.csv(fname,na.strings=c("1/1/1901"))[,-1]
   # all.dat$mrn <- as.integer(substr(all.dat$mrn,1,regexpr(",",all.dat$mrn)-1))
   # all.dat$active_mrn <- as.integer(substr(all.dat$active_mrn,1,regexpr(",",all.dat$active_mrn)-1))
@@ -189,6 +190,7 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   growth.dat$bmi <- (growth.dat$growth_wt_kg)/((growth.dat$growth_ht_cm/100)^2)
   
   # str(demog.dat)
+  demog.dat[,c(2,3,6)]
   # demog.dat[,c(2,3,6)] this is targeting 2:mrn, 3: dob, 6: gender_male
   
   # replacing x=growth_mrn to x=mrn  & then ignoring the merge as demog.data in null

@@ -11,8 +11,9 @@ today <- as.integer(mdy.date(12,31,2017))
 readdata()
 # replacing the all.dat dataset with the first 12672 rows as everything following isnt in proper formatting
 # original all.dat <- 12681 rows and trimmed all.dat <- 12672 rows
-all.dat <- all.dat[1:12672,]
-mrnlist <- unique(all.dat$mrn)
+# all.dat <- all.dat[1:12672,]
+colnames(all.dat)
+mrnlist <- unique(all.dat$ï..mrn)
 
 
 ###
