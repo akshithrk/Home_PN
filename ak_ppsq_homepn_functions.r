@@ -169,6 +169,8 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   active.dat$dateout <- as.integer(split.date(active.dat$svc_stop,char="-",ymd=T))
   active.dat$dateout <- replace(active.dat$dateout,is.na(active.dat$dateout),today)
   active.dat$servdays <- active.dat$dateout-active.dat$datein+1
+  # colnames(active.dat)
+  # split.date(active.dat$svc_start,char="-",ymd=T)
   
   cl.dat$datein <- as.integer(split.date(cl.dat$insert_date,char="-",ymd=T))
   cl.dat$dateout <- as.integer(split.date(cl.dat$remove_date,char="-",ymd=T))
