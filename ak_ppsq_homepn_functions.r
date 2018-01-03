@@ -63,6 +63,8 @@ readdata <- function(fname="NEW2HomePNDatabaseAL_DATA_2018-01-02_0946.csv")
   # all.dat$outpt_mrn <- as.integer(substr(all.dat$outpt_mrn,1,regexpr(",",all.dat$outpt_mrn)-1))
   # all.dat <<- all.dat
 }
+
+readdata()
 # str(alldata)
 # aos <- active_on_service_rawdata
 # # aos$record same as as.integer yet sticking to as.integer
