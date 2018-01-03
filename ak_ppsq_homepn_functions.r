@@ -144,7 +144,15 @@ prepdata <- function(mrnlist,m1=0,m2=today)
 
   # demog.dat <- all.dat[all.dat$redcap_repeat_instrument == is.na(all.dat$redcap_repeat_instrument),]
   # ?subset
-  demog.dat <- subset(all.dat, is.na(redcap_repeat_instrument))
+  # all.dat$redcap_repeat_instrument
+  # all.dat[1, "redcap_repeat_instance"]
+  # is.na(all.dat$redcap_repeat_instrument)
+  # is.null(all.dat[1, "redcap_repeat_instance"])
+  
+  # none of the above seemed to be working as demog values are NA but is.na() was returning false so manually updated them to demographics
+  # demog.dat <- subset(all.dat, is.na(redcap_repeat_instrument))
+  all.dat$redcap_repeat_instrument=="Demographics"
+  demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="Demographics",]
   active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_on_service",]
   cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="central_line",]
   hosp.dat <- all.dat[all.dat$redcap_repeat_instrument=="inpatient_encounters",]

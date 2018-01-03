@@ -13,7 +13,7 @@ readdata()
 # original all.dat <- 12681 rows and trimmed all.dat <- 12672 rows
 # all.dat <- all.dat[1:12672,]
 colnames(all.dat)
-mrnlist <- unique(all.dat$ï..mrn)
+mrnlist <- unique(all.dat$Ã¯..mrn)
 
 
 ###
