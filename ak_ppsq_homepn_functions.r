@@ -43,7 +43,7 @@ today <- as.integer(mdy.date(12,31,2017))
 # readdata <- function(fname="hpn_redcap_api_data_new.csv")
 # rm(all.dat)
 # readdata <- function(fname="NEWHomePNDatabaseALL_DATA_2017-12-19_1603.csv")
-readdata <- function(fname="NEW2HomePNDatabaseAL_DATA_2018-01-02_0946.csv")
+readdata <- function(fname="NEW2HomePNDatabaseAL_DATA_2018-01-03_1548.csv")
 {
   read.csv
   # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
