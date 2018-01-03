@@ -43,7 +43,7 @@ today <- as.integer(mdy.date(12,31,2017))
 # readdata <- function(fname="hpn_redcap_api_data_new.csv")
 # rm(all.dat)
 # readdata <- function(fname="NEWHomePNDatabaseALL_DATA_2017-12-19_1603.csv")
-readdata <- function(fname="NEW2HomePNDatabaseAL_DATA_2018-01-03_1548.csv")
+readdata <- function(fname="NEW2HomePNDatabaseAL_DATA_2018-01-03_1558.csv")
 {
   read.csv
   # as tested above, the na.strings replaces the specified value within c as na or null and so removing it from this script as it seems to be removing values
@@ -153,8 +153,9 @@ prepdata <- function(mrnlist,m1=0,m2=today)
   
   # none of the above seemed to be working as demog values are NA but is.na() was returning false so manually updated them to demographics
   # demog.dat <- subset(all.dat, is.na(redcap_repeat_instrument))
-  all.dat$redcap_repeat_instrument=="Demographics"
-  demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="Demographics",]
+  # all.dat$redcap_repeat_instrument=="Demographics"
+  
+  demog.dat <- all.dat[all.dat$redcap_repeat_instrument=="demographics",]
   active.dat <- all.dat[all.dat$redcap_repeat_instrument=="active_on_service",]
   cl.dat <- all.dat[all.dat$redcap_repeat_instrument=="central_line",]
   hosp.dat <- all.dat[all.dat$redcap_repeat_instrument=="inpatient_encounters",]
